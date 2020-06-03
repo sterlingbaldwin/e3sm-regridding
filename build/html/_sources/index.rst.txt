@@ -51,6 +51,12 @@ of mapping files for commonly used E3SM resolutions.
 * `Standard resolution EAM/CAM atmospheric data (ne30) to 1x1 degree lon lat <http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc>`_
 * `Standard resolution ELM/CLM atmospheric data to 1x1 degree lon lat <http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_sgs_elm.20190301.nc>`_
 
+
+Data files
+----------
+
+Raw E3SM model output can be obtained from ESGF here: https://esgf-node.llnl.gov/search/e3sm/
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
