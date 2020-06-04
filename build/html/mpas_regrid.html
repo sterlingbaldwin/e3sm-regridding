@@ -79,12 +79,16 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Regridding Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atm_regrid.html">Atmospheric Regridding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lnd_regrid.html">Land Regridding</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MPAS Regridding</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#regridding-mpas-ocean-sea-ice-data-diles">Regridding MPAS ocean/sea-ice data diles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#regridding-mpas-ocean-sea-ice-data-files">Regridding MPAS ocean/sea-ice data files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#low-complexity">Low Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-complexity">High Complexity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -153,34 +157,46 @@
             
   <div class="section" id="mpas-regridding">
 <span id="id1"></span><h1>MPAS Regridding<a class="headerlink" href="#mpas-regridding" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="regridding-mpas-ocean-sea-ice-data-diles">
-<h2>Regridding MPAS ocean/sea-ice data diles<a class="headerlink" href="#regridding-mpas-ocean-sea-ice-data-diles" title="Permalink to this headline">¶</a></h2>
-<p>A simple example, regridding a directory of mpaso.hist.am.timeSeriesStatsMonthly files.
+<div class="section" id="regridding-mpas-ocean-sea-ice-data-files">
+<h2>Regridding MPAS ocean/sea-ice data files<a class="headerlink" href="#regridding-mpas-ocean-sea-ice-data-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="low-complexity">
+<h3>Low Complexity<a class="headerlink" href="#low-complexity" title="Permalink to this headline">¶</a></h3>
+<p>In this example, a directory of mpaso.hist.am.timeSeriesStatsMonthly files will be regridded.
 For mpassi files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc
+<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
 <span class="nv">drc_in</span><span class="o">=</span>./mpaso/
 <span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-P mpas --d2f&quot;</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-P mpas --d2f&quot;</span>  <span class="c1"># This invokes the mpas regridder, and converts output from double precision to single</span>
 
 ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="o">{</span>flags<span class="o">}</span>
 </pre></div>
 </div>
-<p>A more complex example, extracting two variables into single-variable-per-file time-series files. These will be compressed and deflated,
-and the data will be converted from double to single precision.
-For mpassi files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding.</p>
+</div>
+<div class="section" id="high-complexity">
+<h3>High Complexity<a class="headerlink" href="#high-complexity" title="Permalink to this headline">¶</a></h3>
+<p>In this example, two variables will be extracted into single-variable-per-file time-series files.
+These will be compressed and deflated, and the data will be converted from double to single precision.
+For mpas sea-ice files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc
+<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
 <span class="nv">drc_in</span><span class="o">=</span>./mpaso/
 <span class="nv">drc_out</span><span class="o">=</span>./180x360/
 <span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature&quot;</span>
-<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>
-<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1 -m mpas --d2f&quot;</span>
+<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                  <span class="c1"># first year of model data</span>
+<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                    <span class="c1"># last year of model data</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1 -m mpas --d2f&quot;</span>        <span class="c1"># compression level 7, deflate level 1, using ncclimo mode=mpas, converting from double to float</span>
 
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span><span class="p">;</span>
-ls *.nc <span class="p">|</span> ncclimo --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="o">{</span>flags<span class="o">}</span> --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span>
+ls <span class="p">|</span> ncclimo <span class="se">\</span>
+  <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
+  --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
+  --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
+  --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
+  -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
+  --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -203,7 +219,7 @@ ls *.nc <span class="p">|</span> ncclimo --var<span class="o">=</span><span clas
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Sterling Baldwin
+        &copy; Copyright 2020, Lawrence Livermore National Security
 
     </p>
   </div>

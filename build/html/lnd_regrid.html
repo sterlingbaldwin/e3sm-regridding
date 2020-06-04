@@ -80,11 +80,16 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Regridding Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atm_regrid.html">Atmospheric Regridding</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Land Regridding</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#regridding-elm-clm-land-data-diles">Regridding ELM/CLM land data diles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#regridding-elm-clm-land-data-files">Regridding ELM/CLM land data files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#low-complexity">Low Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#medium-complexity">Medium Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-complexity">High Complexity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mpas_regrid.html">MPAS Regridding</a></li>
@@ -154,9 +159,11 @@
             
   <div class="section" id="land-regridding">
 <span id="lnd-regrid"></span><h1>Land Regridding<a class="headerlink" href="#land-regridding" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="regridding-elm-clm-land-data-diles">
-<h2>Regridding ELM/CLM land data diles<a class="headerlink" href="#regridding-elm-clm-land-data-diles" title="Permalink to this headline">¶</a></h2>
-<p>A simple example, regridding a directory of ne30 cam.h0 files. This will regrid all variables in the input files, using sub-grid-scale
+<div class="section" id="regridding-elm-clm-land-data-files">
+<h2>Regridding ELM/CLM land data files<a class="headerlink" href="#regridding-elm-clm-land-data-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="low-complexity">
+<h3>Low Complexity<a class="headerlink" href="#low-complexity" title="Permalink to this headline">¶</a></h3>
+<p>In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub-grid-scale
 regridding, which uses the land fraction around coastal areas to better represent the values around complex coastal geometry.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
@@ -167,32 +174,47 @@ regridding, which uses the land fraction around coastal areas to better represen
 ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
 </div>
-<p>In this medium complexity example, the same regridding operation as above is performed, but only on the DEADSTEMC and CDWC variables.
-Running with specific variables selected significantly speeds up the run, as the rest of the variables are ignored.</p>
+</div>
+<div class="section" id="medium-complexity">
+<h3>Medium Complexity<a class="headerlink" href="#medium-complexity" title="Permalink to this headline">¶</a></h3>
+<p>In this example, the same regridding operation as above is performed, but only on the DEADSTEMC and CDWC variables.
+Running with specific variables significantly speeds up the run and reduces output files size, as the rest of the variables are ignored.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./cam.h0/
+<span class="nv">drc_in</span><span class="o">=</span>./clm2.h0/
 <span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>
+<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>               <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
+<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;         <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
 
-ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
+ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
 </div>
-<p>In this more complex example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
+</div>
+<div class="section" id="high-complexity">
+<h3>High Complexity<a class="headerlink" href="#high-complexity" title="Permalink to this headline">¶</a></h3>
+<p>In example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
 The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
 <span class="nv">drc_in</span><span class="o">=</span>./clm2.h0/
 <span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>               <span class="c1"># comma separated variable list</span>
+<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>               <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
 <span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                          <span class="c1"># the first year of model data</span>
 <span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                            <span class="c1"># the last year of model data</span>
 <span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;         <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
-<span class="nv">format_flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>       <span class="c1"># compression and deflation</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>       <span class="c1"># compression and deflation</span>
 
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span><span class="p">;</span>
-ls *.nc <span class="p">|</span> ncclimo --dbg<span class="o">=</span><span class="m">1</span> --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="si">${</span><span class="nv">format_flags</span><span class="si">}</span> --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span>
+ls <span class="p">|</span> ncclimo <span class="se">\</span>
+  <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
+  --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
+  --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
+  --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
+  -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
+  --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> <span class="se">\</span>
+  --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -217,7 +239,7 @@ ls *.nc <span class="p">|</span> ncclimo --dbg<span class="o">=</span><span clas
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Sterling Baldwin
+        &copy; Copyright 2020, Lawrence Livermore National Security
 
     </p>
   </div>

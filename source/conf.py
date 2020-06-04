@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'e3sm-regridding'
-copyright = '2020, Sterling Baldwin'
+copyright = '2020, Lawrence Livermore National Security'
 author = 'Sterling Baldwin'
 
 # The full version, including alpha/beta/rc tags
@@ -41,6 +41,15 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+
+# -- Options for LaTeX output ------------------------------------------------
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title, author, documentclass [howto/manual]).
+latex_documents = [
+    ('index', 'e3sm-regridding.tex', u'Regridding E3SM Data',
+     r'Sterling Baldwin \and Jill Chengzhu Zhang \and Renata McCoy \and Tony Bartoletti \and Charlie Zender', 'manual'),
+]
 
 # -- Options for HTML output -------------------------------------------------
 

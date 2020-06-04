@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Regridding Guide &mdash; e3sm-regridding 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Atmospheric Regridding" href="atm_regrid.html" />
+    <link rel="prev" title="Welcome to e3sm-regridding’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> e3sm-regridding
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Regridding Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#environment-setup">Environment Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pre-build-executible">Pre-build Executible</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#map-files">Map files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-files">Data files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eam-cam">EAM/CAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elm-clm">ELM/CLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mpas">MPAS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="atm_regrid.html">Atmospheric Regridding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lnd_regrid.html">Land Regridding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpas_regrid.html">MPAS Regridding</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">e3sm-regridding</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Regridding Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/guide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="regridding-guide">
+<span id="guide"></span><h1>Regridding Guide<a class="headerlink" href="#regridding-guide" title="Permalink to this headline">¶</a></h1>
+<p>This guide will cover regridding native E3SM model output from each of its components native grids, to
+any regular grid. These regridding examples are specific for the E3SMv1.x model, and may not work with later versions. For detailed up-to-date information on the
+E3SM model activities, refer to the <a class="reference external" href="https://e3sm.org/">E3SM organizational website</a>.</p>
+<div class="section" id="environment-setup">
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this headline">¶</a></h2>
+<p>You will need to first create an anaconda environment with the depedencies and install the netCDF Operators (NCO).
+Follow <a class="reference external" href="http://nco.sourceforge.net/">this link</a> for the full set of NCO documentation.
+Although there are several ways to intall nco, the recommended method is to use the <a class="reference external" href="https://www.anaconda.com/products/individual#linux">conda</a> package manager.</p>
+<div class="section" id="id1">
+<h3>Conda<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">nco</span>
+</pre></div>
+</div>
+<p>To create a new conda environment named “regrid” with just nco use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">regrid</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">nco</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pre-build-executible">
+<h3>Pre-build Executible<a class="headerlink" href="#pre-build-executible" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://nco.sourceforge.net/#Executables">Pre-build executibles are available on a variety of platforms.</a></p>
+</div>
+</div>
+<div class="section" id="map-files">
+<h2>Map files<a class="headerlink" href="#map-files" title="Permalink to this headline">¶</a></h2>
+<p>All of these methods assume you have a mapping file on hand to convert between the relevant grids. This is a partial list
+of mapping files for commonly used E3SM resolutions.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v1/map_oRRS18to6v3_to_0.25x0.25degree_bilinear.nc">High resolution MPAS ocean (18km to 6km) to 1/4 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc">High resolution EAM/CAM atmospheric data (ne120) to 1/4 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc">Standard resolution MPAS ocean (60km to 30km) to 1x1 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc">Standard resolution EAM/CAM atmospheric data (ne30) to 1x1 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_sgs_elm.20190301.nc">Standard resolution ELM/CLM atmospheric data to 1x1 degree lon lat</a></p></li>
+</ul>
+<p><a class="reference external" href="https://web.lcrc.anl.gov/public/e3sm/mapping/maps/">A set of commonly used mapfiles can be found here.</a> The mapfiles follow the naming convention of “map_&lt;source-grid&gt;_to_&lt;destination-grid&gt;_&lt;regridding-algorithm&gt;”. This allows you to mix-and-match
+whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
+resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. The two most commond regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
+average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default
+regridding method. The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution. A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain. See <a class="reference external" href="http://cola.gmu.edu/grads/gadoc/gradfunclterp.html">here</a> for additional information.</p>
+</div>
+<div class="section" id="data-files">
+<h2>Data files<a class="headerlink" href="#data-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="eam-cam">
+<h3>EAM/CAM<a class="headerlink" href="#eam-cam" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://esgf-node.llnl.gov/search/e3sm/">Raw E3SM model output can be obtained from ESGF here.</a> The ESGF search interface allows faceted search of the published E3SM model data.
+On the left side of the interface, each of the E3SM search facets is represented by a drop down menu. For example, the “Campaign” facet allows for the selection of data from a specific
+simulation campaign. Selecting the “DECK-v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the <a class="reference external" href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">DECK experimental campaign.</a>
+Similarly, the “experiment” facet can be used to display all datasets belonging to a single simulation. The facets can be added together in an AND relationship, for example selecting the <a class="reference external" href="https://esgf-node.llnl.gov/search/e3sm/?experiment=1pctCO2&amp;realm=atmos">experiment=1pctCO2 AND realm=atmos</a>
+will display all datasets that have both belong to the 1pctCO2 experiment, and are atmospheric data files.</p>
+<p>The atmospheric files take the form of &lt;experiment_case_name&gt;.cam.h0.&lt;year&gt;-&lt;month&gt;.nc, for example 20180215.DECKv1b_1pctCO2.ne30_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified decendent of the
+UCAR <a class="reference external" href="http://www.cesm.ucar.edu/models/atm-cam/">Community Atmospheric Model</a>, and so include “cam” in their name. Note that future versions of the E3SM model will include a name change to the “E3SM Atmosphere Model” or eam. The EAM/CAM
+data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 hourly (cam.h3), and 3hr (cam.h4).</p>
+</div>
+<div class="section" id="elm-clm">
+<h3>ELM/CLM<a class="headerlink" href="#elm-clm" title="Permalink to this headline">¶</a></h3>
+<p>Similarly, the E3SM Land Model decends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
+“elm” for the E3SM Land Model. All land model data are monthly averages.</p>
+</div>
+<div class="section" id="mpas">
+<h3>MPAS<a class="headerlink" href="#mpas" title="Permalink to this headline">¶</a></h3>
+<p>The Ocean/Ice components of E3SM come from the <a class="reference external" href="https://mpas-dev.github.io/">Model for Prediction Across Scales (MPAS)</a>, a modern state-of-the-art ocean model developed specifically for the E3SM project. All MPAS
+data are monthly averages.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atm_regrid.html" class="btn btn-neutral float-right" title="Atmospheric Regridding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to e3sm-regridding’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Lawrence Livermore National Security
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
