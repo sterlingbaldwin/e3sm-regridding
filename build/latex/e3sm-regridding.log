@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  4 JUN 2020 15:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  4 JUN 2020 15:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -724,7 +724,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 366.
 Here is how much of TeX's memory you used:
  13463 strings out of 480608
  191298 string characters out of 5903631
- 507619 words of memory out of 5000000
+ 507623 words of memory out of 5000000
  28996 multiletter control sequences out of 15000+600000
  579297 words of font info for 77 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
@@ -739,7 +739,7 @@ s/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1
 /urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/t
 imes/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on e3sm-regridding.pdf (12 pages, 120515 bytes).
+Output written on e3sm-regridding.pdf (12 pages, 120541 bytes).
 PDF statistics:
  169 PDF objects out of 1000 (max. 8388607)
  138 compressed objects within 2 object streams

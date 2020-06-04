@@ -51,10 +51,16 @@ of mapping files for commonly used E3SM resolutions.
 
 `A set of commonly used mapfiles can be found here. <https://web.lcrc.anl.gov/public/e3sm/mapping/maps/>`_ The mapfiles follow the naming convention of "map_<source-grid>_to_<destination-grid>_<regridding-algorithm>". This allows you to mix-and-match
 whichever raw grid was used to whichever destination grid is desired. The "ne30" raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the "standard" resolution for the E3SM model. Higher
-resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. The two most commond regridding algorithns are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
-average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default
-regridding method. The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution. A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
-If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain. See `here <http://cola.gmu.edu/grads/gadoc/gradfunclterp.html>`_ for additional information.
+resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. 
+
+The two most commond regridding algorithns are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
+average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. 
+If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method. 
+
+The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution. 
+A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid. 
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain. 
+See `here <http://cola.gmu.edu/grads/gadoc/gradfunclterp.html>`_ for additional information.
 
 
 Data files
