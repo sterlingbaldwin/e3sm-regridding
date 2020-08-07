@@ -44,7 +44,7 @@ All of these methods assume you have a mapping file on hand to convert between t
 of mapping files for commonly used E3SM resolutions.
 
 * `High resolution MPAS ocean (18km to 6km) to 1/4 degree lon lat <https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v1/map_oRRS18to6v3_to_0.25x0.25degree_bilinear.nc>`_
-* `High resolution EAM/CAM atmospheric data (ne120) to 1/4 degree lon lat <http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc>`_
+* `High resolution atmos/land (ne120) to 1/4 degree lon lat <http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc>`_
 * `Standard resolution MPAS ocean (60km to 30km) to 1x1 degree lon lat <https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc>`_
 * `Standard resolution atmos/land (ne30) to 1x1 degree lon lat <http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc>`_
 
@@ -52,7 +52,7 @@ of mapping files for commonly used E3SM resolutions.
 whichever raw grid was used to whichever destination grid is desired. The "ne30" raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the "standard" resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. 
 
-The two most commond regridding algorithns are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
+The two most common regridding algorithns are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. 
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method. 
 

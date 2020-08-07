@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Regridding Guide &mdash; e3sm-regridding 1.0 documentation</title>
+  <title>Regridding Guide &mdash; e3sm-regridding 1.3 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -17,7 +20,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Atmospheric Regridding" href="atm_regrid.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> e3sm-regridding
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> e3sm-regridding
           
 
           
@@ -73,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -104,6 +106,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -142,7 +145,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Regridding Guide</li>
     
@@ -194,14 +197,14 @@ Although there are several ways to intall nco, the recommended method is to use 
 of mapping files for commonly used E3SM resolutions.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v1/map_oRRS18to6v3_to_0.25x0.25degree_bilinear.nc">High resolution MPAS ocean (18km to 6km) to 1/4 degree lon lat</a></p></li>
-<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc">High resolution EAM/CAM atmospheric data (ne120) to 1/4 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc">High resolution atmos/land (ne120) to 1/4 degree lon lat</a></p></li>
 <li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc">Standard resolution MPAS ocean (60km to 30km) to 1x1 degree lon lat</a></p></li>
 <li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc">Standard resolution atmos/land (ne30) to 1x1 degree lon lat</a></p></li>
 </ul>
 <p><a class="reference external" href="https://web.lcrc.anl.gov/public/e3sm/mapping/maps/">A set of commonly used mapfiles can be found here.</a> The mapfiles follow the naming convention of “map_&lt;source-grid&gt;_to_&lt;destination-grid&gt;_&lt;regridding-algorithm&gt;”. This allows you to mix-and-match
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat.</p>
-<p>The two most commond regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
+<p>The two most common regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point.
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method.</p>
 <p>The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution.
@@ -224,7 +227,7 @@ data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 h
 </div>
 <div class="section" id="elm-clm">
 <h3>ELM/CLM<a class="headerlink" href="#elm-clm" title="Permalink to this headline">¶</a></h3>
-<p>Similarly, the E3SM Land Model descends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
+<p>Similarly, the E3SM Land Model decends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
 “elm” for the E3SM Land Model. All land model data are monthly averages.</p>
 </div>
 <div class="section" id="mpas">
@@ -255,11 +258,19 @@ data are monthly averages.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Lawrence Livermore National Security
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -270,7 +281,6 @@ data are monthly averages.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

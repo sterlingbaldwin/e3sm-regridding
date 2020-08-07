@@ -274,9 +274,9 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/courier/pcrro8r.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/courier/pcrb8t.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/courier/pcrb8t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/courier/pcrb8r.tfm
-INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT e3sm-regridding.ind

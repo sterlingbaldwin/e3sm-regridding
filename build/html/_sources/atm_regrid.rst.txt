@@ -18,10 +18,10 @@ directory and that a set of cam.h0 files are inplace under a directory named "ca
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc    # path to appropriate mapfile
-    drc_in=cam.h0                                            # input directory path
-    drc_out=180x360                                          # output directory path
+    input_dir=cam.h0                                            # input directory path
+    output_dir=180x360                                          # output directory path
     
-    ncremap -m ${mapfile} -I ${drc_in} -O ${drc_out}
+    ncremap -m ${mapfile} -I ${input_dir} -O ${output_dir}
 
 
 Medium Complexity
@@ -36,11 +36,11 @@ Output file size will also be reduced, as only the selected variables will be pr
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
-    drc_in=cam.h0                                           # input directory path
-    drc_out=180x360                                         # output directory path
+    input_dir=cam.h0                                           # input directory path
+    output_dir=180x360                                         # output directory path
     vars=CLD_CAL,FSDS                                       # variables to regrid
     
-    ncremap -v ${vars} -m ${mapfile} -I ${drc_in} -O ${drc_out}
+    ncremap -v ${vars} -m ${mapfile} -I ${input_dir} -O ${output_dir}
 
 
 Regridded Climatology
@@ -55,8 +55,9 @@ experiment data supplied to it with the "-c" flag.
 
     #!/bin/bash
 
-    drc_in=cam.h0
-    drc_out=180x360
+    input_dir=cam.h0
+    output_dir=native_ts                                    # path to output directory for native timeseries
+    regrid_dir=180x360ts                                    # path to output directory for regridded timeseries
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
     vars=CLD_CAL,FSDS                                       # comma separated variable list
     start=1850                                              # the first year of data
@@ -70,8 +71,9 @@ experiment data supplied to it with the "-c" flag.
       -c ${caseid} \
       --yr_srt=${start} \
       --yr_end=${end} \
-      --input=${drc_in} \
-      --output=${drc_out} \
+      --input=${input_dir} \
+      --output=${output_dir} \
+      --regrid=${regrid_dir}
       --map=${mapfile}
 
 Regridded Timeseries
@@ -84,8 +86,8 @@ above climatology example, except that the additional year-per-file flag (--ypf)
 
     #!/bin/bash
 
-    drc_in=cam.h0
-    drc_out=180x360
+    input_dir=cam.h0
+    output_dir=180x360
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
     vars=CLD_CAL,FSDS                                       # comma separated variable list
     start=1850                                              # the first year of data
@@ -99,7 +101,7 @@ above climatology example, except that the additional year-per-file flag (--ypf)
       -c ${caseid} \
       --yr_srt=${start} \
       --yr_end=${end} \
-      --input=${drc_in} \
-      --output=${drc_out} \
+      --input=${input_dir} \
+      --output=${output_dir} \
       --map=${mapfile}
 

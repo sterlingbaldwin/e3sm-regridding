@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Atmospheric Regridding &mdash; e3sm-regridding 1.0 documentation</title>
+  <title>Atmospheric Regridding &mdash; e3sm-regridding 1.3 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -17,7 +20,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Land Regridding" href="lnd_regrid.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> e3sm-regridding
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> e3sm-regridding
           
 
           
@@ -73,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,6 +101,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -137,7 +140,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Atmospheric Regridding</li>
     
@@ -168,10 +171,10 @@
 directory and that a set of cam.h0 files are inplace under a directory named “cam.h0”. All the variables inside the file will be regridded.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc    <span class="c1"># path to appropriate mapfile</span>
-<span class="nv">drc_in</span><span class="o">=</span>cam.h0                                            <span class="c1"># input directory path</span>
-<span class="nv">drc_out</span><span class="o">=</span>180x360                                          <span class="c1"># output directory path</span>
+<span class="nv">input_dir</span><span class="o">=</span>cam.h0                                            <span class="c1"># input directory path</span>
+<span class="nv">output_dir</span><span class="o">=</span>180x360                                          <span class="c1"># output directory path</span>
 
-ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
+ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">input_dir</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span>
 </pre></div>
 </div>
 </div>
@@ -182,11 +185,11 @@ Running with specific variables selected significantly speeds up the regridding 
 Output file size will also be reduced, as only the selected variables will be present.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
-<span class="nv">drc_in</span><span class="o">=</span>cam.h0                                           <span class="c1"># input directory path</span>
-<span class="nv">drc_out</span><span class="o">=</span>180x360                                         <span class="c1"># output directory path</span>
+<span class="nv">input_dir</span><span class="o">=</span>cam.h0                                           <span class="c1"># input directory path</span>
+<span class="nv">output_dir</span><span class="o">=</span>180x360                                         <span class="c1"># output directory path</span>
 <span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># variables to regrid</span>
 
-ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
+ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">input_dir</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span>
 </pre></div>
 </div>
 </div>
@@ -199,8 +202,9 @@ The output will be compressed and deflated. The model data starts at 1850-01 and
 experiment data supplied to it with the “-c” flag.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nv">drc_in</span><span class="o">=</span>cam.h0
-<span class="nv">drc_out</span><span class="o">=</span>180x360
+<span class="nv">input_dir</span><span class="o">=</span>cam.h0
+<span class="nv">output_dir</span><span class="o">=</span>native_ts                                    <span class="c1"># path to output directory for native timeseries</span>
+<span class="nv">regrid_dir</span><span class="o">=</span>180x360ts                                    <span class="c1"># path to output directory for regridded timeseries</span>
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
 <span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># comma separated variable list</span>
 <span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                              <span class="c1"># the first year of data</span>
@@ -214,8 +218,9 @@ ncclimo <span class="se">\</span>
   -c <span class="si">${</span><span class="nv">caseid</span><span class="si">}</span> <span class="se">\</span>
   --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
   --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
-  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
-  --output<span class="o">=</span><span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">input_dir</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span> <span class="se">\</span>
+  --regrid<span class="o">=</span><span class="si">${</span><span class="nv">regrid_dir</span><span class="si">}</span>
   --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
 </pre></div>
 </div>
@@ -226,8 +231,8 @@ ncclimo <span class="se">\</span>
 above climatology example, except that the additional year-per-file flag (–ypf) is added.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nv">drc_in</span><span class="o">=</span>cam.h0
-<span class="nv">drc_out</span><span class="o">=</span>180x360
+<span class="nv">input_dir</span><span class="o">=</span>cam.h0
+<span class="nv">output_dir</span><span class="o">=</span>180x360
 <span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
 <span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># comma separated variable list</span>
 <span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                              <span class="c1"># the first year of data</span>
@@ -241,8 +246,8 @@ ncclimo <span class="se">\</span>
   -c <span class="si">${</span><span class="nv">caseid</span><span class="si">}</span> <span class="se">\</span>
   --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
   --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
-  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
-  --output<span class="o">=</span><span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">input_dir</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span> <span class="se">\</span>
   --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
 </pre></div>
 </div>
@@ -269,11 +274,19 @@ ncclimo <span class="se">\</span>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Lawrence Livermore National Security
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -284,7 +297,6 @@ ncclimo <span class="se">\</span>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

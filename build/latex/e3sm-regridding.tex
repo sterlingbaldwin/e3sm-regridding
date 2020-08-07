@@ -66,14 +66,15 @@
 % Set up styles of URL: it should be placed after hyperref.
 \urlstyle{same}
 
+
 \usepackage{sphinxmessages}
 \setcounter{tocdepth}{0}
 
 
 
 \title{Regridding E3SM Data}
-\date{Jul 20, 2020}
-\release{1.2}
+\date{Aug 07, 2020}
+\release{1.3}
 \author{Sterling Baldwin \and Jill Chengzhu Zhang \and Renata McCoy \and Tony Bartoletti \and Charlie Zender}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Release}
@@ -144,7 +145,7 @@ of mapping files for commonly used E3SM resolutions.
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat.
 
-The two most commond regridding algorithns are bi\sphinxhyphen{}linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi\sphinxhyphen{}linear each of the grid points in the dest grid contains the
+The two most common regridding algorithns are bi\sphinxhyphen{}linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi\sphinxhyphen{}linear each of the grid points in the dest grid contains the
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point.
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method.
 
@@ -196,10 +197,10 @@ directory and that a set of cam.h0 files are inplace under a directory named “
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc    \PYG{c+c1}{\PYGZsh{} path to appropriate mapfile}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0                                            \PYG{c+c1}{\PYGZsh{} input directory path}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                          \PYG{c+c1}{\PYGZsh{} output directory path}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}cam.h0                                            \PYG{c+c1}{\PYGZsh{} input directory path}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                          \PYG{c+c1}{\PYGZsh{} output directory path}
 
-ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
+ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
@@ -212,11 +213,11 @@ Output file size will also be reduced, as only the selected variables will be pr
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0                                           \PYG{c+c1}{\PYGZsh{} input directory path}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} output directory path}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}cam.h0                                           \PYG{c+c1}{\PYGZsh{} input directory path}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} output directory path}
 \PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} variables to regrid}
 
-ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
+ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
@@ -230,8 +231,9 @@ experiment data supplied to it with the “\sphinxhyphen{}c” flag.
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}cam.h0
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}native\PYGZus{}ts                                    \PYG{c+c1}{\PYGZsh{} path to output directory for native timeseries}
+\PYG{n+nv}{regrid\PYGZus{}dir}\PYG{o}{=}180x360ts                                    \PYG{c+c1}{\PYGZsh{} path to output directory for regridded timeseries}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
 \PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} comma separated variable list}
 \PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                              \PYG{c+c1}{\PYGZsh{} the first year of data}
@@ -245,8 +247,9 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}c \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{caseid}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}regrid\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{regrid\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
@@ -259,8 +262,8 @@ above climatology example, except that the additional year\sphinxhyphen{}per\sph
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}cam.h0
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
 \PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} comma separated variable list}
 \PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                              \PYG{c+c1}{\PYGZsh{} the first year of data}
@@ -274,8 +277,8 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}c \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{caseid}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
@@ -294,11 +297,11 @@ regridding, which uses the land fraction around coastal areas to better represen
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
 \PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                             \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
 
-ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
+ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
 
 
@@ -310,12 +313,12 @@ Running with specific variables significantly speeds up the run and reduces outp
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
-\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                     \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                     \PYG{c+c1}{\PYGZsh{} the variables must be in a comma separated list with no spaces}
 \PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                             \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
 
-ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
+ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
 
 
@@ -327,9 +330,9 @@ The output will be compressed and deflated. The model data starts at 1850\sphinx
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc  \PYG{c+c1}{\PYGZsh{} path to mapfile}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                         \PYG{c+c1}{\PYGZsh{} path to input directory}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                        \PYG{c+c1}{\PYGZsh{} path to output directory}
-\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                    \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}clm2.h0                                         \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                        \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                    \PYG{c+c1}{\PYGZsh{} the variables must be in a comma separated list with no spaces}
 \PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                             \PYG{c+c1}{\PYGZsh{} the first year of model data}
 \PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                               \PYG{c+c1}{\PYGZsh{} the last year of model data}
 \PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                            \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
@@ -341,8 +344,8 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}ypf\PYG{o}{=}\PYG{l+m}{50} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
@@ -363,11 +366,11 @@ or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}mpaso                                                \PYG{c+c1}{\PYGZsh{} path to input directory}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                             \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}mpaso                                                \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                             \PYG{c+c1}{\PYGZsh{} path to output directory}
 \PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}prc\PYGZus{}typ=mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}                                \PYG{c+c1}{\PYGZsh{} This invokes the mpas regridder, and converts output from double precision to single}
 
-ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{o}{\PYGZob{}}flags\PYG{o}{\PYGZcb{}}
+ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{output\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{o}{\PYGZob{}}flags\PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
@@ -381,8 +384,8 @@ or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc                       \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}mpaso                                                                    \PYG{c+c1}{\PYGZsh{} path to input directory}
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                                                 \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}mpaso                                                                    \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                                                 \PYG{c+c1}{\PYGZsh{} path to output directory}
 \PYG{n+nv}{vars}\PYG{o}{=}timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceSalinity,timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceTemperature   \PYG{c+c1}{\PYGZsh{} variables to extract in a comma sepperated list}
 \PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                                                      \PYG{c+c1}{\PYGZsh{} first year of model data}
 \PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                                                        \PYG{c+c1}{\PYGZsh{} last year of model data}
@@ -393,7 +396,7 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}var\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{input\PYGZus{}dir}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{dir\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
