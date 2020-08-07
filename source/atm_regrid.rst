@@ -18,8 +18,8 @@ directory and that a set of cam.h0 files are inplace under a directory named "ca
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc    # path to appropriate mapfile
-    input_dir=cam.h0                                            # input directory path
-    output_dir=180x360                                          # output directory path
+    input_dir=cam.h0                                         # input directory path
+    output_dir=180x360                                       # output directory path
     
     ncremap -m ${mapfile} -I ${input_dir} -O ${output_dir}
 
@@ -36,8 +36,8 @@ Output file size will also be reduced, as only the selected variables will be pr
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
-    input_dir=cam.h0                                           # input directory path
-    output_dir=180x360                                         # output directory path
+    input_dir=cam.h0                                        # input directory path
+    output_dir=180x360                                      # output directory path
     vars=CLD_CAL,FSDS                                       # variables to regrid
     
     ncremap -v ${vars} -m ${mapfile} -I ${input_dir} -O ${output_dir}

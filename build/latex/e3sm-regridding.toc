@@ -2,7 +2,7 @@
 \contentsline {chapter}{\numberline {1}Regridding Guide}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Environment Setup}{1}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Conda}{1}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}Pre\sphinxhyphen {}build Executible}{1}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.2}Pre-build Executible}{1}{subsection.1.1.2}%
 \contentsline {section}{\numberline {1.2}Map files}{1}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Data files}{2}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}EAM/CAM}{2}{subsection.1.3.1}%
@@ -18,8 +18,8 @@
 \contentsline {section}{\numberline {3.1}Regridding ELM/CLM land data files}{7}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Low Complexity}{7}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Medium Complexity}{7}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}High Complexity}{8}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.3}High Complexity}{7}{subsection.3.1.3}%
 \contentsline {chapter}{\numberline {4}MPAS Regridding}{9}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Regridding MPAS ocean/sea\sphinxhyphen {}ice data files}{9}{section.4.1}%
+\contentsline {section}{\numberline {4.1}Regridding MPAS ocean/sea-ice data files}{9}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Low Complexity}{9}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}High Complexity}{9}{subsection.4.1.2}%

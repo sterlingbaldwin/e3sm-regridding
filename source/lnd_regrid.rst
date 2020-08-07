@@ -17,8 +17,8 @@ regridding, which uses the land fraction around coastal areas to better represen
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
-    input_dir=clm2.h0                                          # path to input directory
-    output_dir=180x360                                         # path to output directory
+    input_dir=clm2.h0                                       # path to input directory
+    output_dir=180x360                                      # path to output directory
     land_file=<input file path>                             # this is the path to a single land file to pull the landfrac variable from
 
     ncremap -m ${mapfile} -I ${input_dir} -O ${output_dir} --sgs_frc=${land_file}/landfrac
@@ -35,8 +35,8 @@ Running with specific variables significantly speeds up the run and reduces outp
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
-    input_dir=clm2.h0                                          # path to input directory
-    output_dir=180x360                                         # path to output directory
+    input_dir=clm2.h0                                       # path to input directory
+    output_dir=180x360                                      # path to output directory
     vars=DEADSTEMC,CDWC                                     # the variables must be in a comma separated list with no spaces
     land_file=<input file path>                             # this is the path to a single land file to pull the landfrac variable from
     
@@ -53,8 +53,8 @@ The output will be compressed and deflated. The model data starts at 1850-01 and
 
     #!/bin/bash
     mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc  # path to mapfile 
-    input_dir=clm2.h0                                         # path to input directory
-    output_dir=180x360                                        # path to output directory
+    input_dir=clm2.h0                                      # path to input directory
+    output_dir=180x360                                     # path to output directory
     vars=DEADSTEMC,CDWC                                    # the variables must be in a comma separated list with no spaces
     start=1850                                             # the first year of model data
     end=2014                                               # the last year of model data

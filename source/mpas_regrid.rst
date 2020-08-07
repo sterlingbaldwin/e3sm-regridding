@@ -19,8 +19,8 @@ or use the --prc_typ=mpasseaice to change the procedure type to mpas-sea-ice.
 
     #!/bin/bash
     mapfile=map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc   # map from the MPAS 60km-to-30km mesh to the 1x1 degree grid
-    input_dir=mpaso                                                # path to input directory
-    output_dir=180x360                                             # path to output directory
+    input_dir=mpaso                                             # path to input directory
+    output_dir=180x360                                          # path to output directory
     flags="--prc_typ=mpas --d2f"                                # This invokes the mpas regridder, and converts output from double precision to single
     
     ncremap -m ${mapfile} -I ${input_dir} -O ${output_dir} {flags}
@@ -39,8 +39,8 @@ or use the --prc_typ=mpasseaice to change the procedure type to mpas-sea-ice
 
     #!/bin/bash
     mapfile=map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc                       # map from the MPAS 60km-to-30km mesh to the 1x1 degree grid
-    input_dir=mpaso                                                                    # path to input directory
-    output_dir=180x360                                                                 # path to output directory
+    input_dir=mpaso                                                                 # path to input directory
+    output_dir=180x360                                                              # path to output directory
     vars=timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature   # variables to extract in a comma sepperated list
     start=1850                                                                      # first year of model data
     end=2014                                                                        # last year of model data
