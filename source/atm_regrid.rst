@@ -7,8 +7,8 @@ Atmospheric Regridding
 Regridding EAM/CAM atmospheric data files
 -----------------------------------------
 
-Low example
-^^^^^^^^^^^
+Simple example
+^^^^^^^^^^^^^^
 
 This example will regrid all files in a directory of ne30 cam.h0 files. This assumes that the mapfile is already in place in the current
 directory and that a set of cam.h0 files are inplace under a directory named "cam.h0". All the variables inside the file will be regridded.
@@ -17,17 +17,17 @@ directory and that a set of cam.h0 files are inplace under a directory named "ca
 .. code-block:: bash
 
     #!/bin/bash
-    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-    drc_in=./cam.h0/
-    drc_out=./180x360/
+    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc    # path to appropriate mapfile
+    input_dir=cam.h0                                            # input directory path
+    output_dir=180x360                                          # output directory path
     
-    ncremap -m ${mapfile} -I ${src_in} -O ${drc_out}
+    ncremap -m ${mapfile} -I ${input_dir} -O ${output_dir}
 
 
 Medium Complexity
 ^^^^^^^^^^^^^^^^^
 
-In this example, the same regridding operation as above is performed, but only on the PRECT and FSDS variables. 
+In this example, the same regridding operation as above is performed, but only on the CLD_CAL and FSDS variables. 
 Running with specific variables selected significantly speeds up the regridding process, as the rest of the variables are ignored.
 Output file size will also be reduced, as only the selected variables will be present.
 
@@ -35,40 +35,73 @@ Output file size will also be reduced, as only the selected variables will be pr
 .. code-block:: bash
 
     #!/bin/bash
-    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-    drc_in=./cam.h0/
-    drc_out=./180x360/
-    vars="PRECT,FSDS"
+    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
+    input_dir=cam.h0                                           # input directory path
+    output_dir=180x360                                         # output directory path
+    vars=CLD_CAL,FSDS                                       # variables to regrid
     
-    ncremap -v ${vars} -m ${mapfile} -I ${src_in} -O ${drc_out}
+    ncremap -v ${vars} -m ${mapfile} -I ${input_dir} -O ${output_dir}
 
-High Complexity
-^^^^^^^^^^^^^^^
 
-In this example, the PRECT and FSDS variables will be regridded and extracted into single-variable-per-file time-series files.
+Regridded Climatology
+---------------------
+
+In this example, the CLD_CAL and FSDS variables will be regridded and averaged over the seasons to create both seasonal and annual climatologies.
 The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12. For high temporal frequency files 
-(i.e. higher frequency then monthly), add the `--clm_md=hgh_frq` argument to the ncclimo command.
+(i.e. higher frequency then monthly), add the `--clm_md=hgh_frq` argument to the ncclimo command. The ncclimo tool needs the caseid of the
+experiment data supplied to it with the "-c" flag.
 
 .. code-block:: bash
 
     #!/bin/bash
 
-    drc_in=./cam.h0/
-    drc_out=./180x360/
-    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-    vars="PRECT,FSDS"              # comma separated variable list
-    start=1850                     # the first year of data
-    end=2014                       # the last year of data
-    flags="-7 --dfl_lvl=1"  # compression and deflation flags
+    input_dir=cam.h0
+    output_dir=native_ts                                    # path to output directory for native timeseries
+    regrid_dir=180x360ts                                    # path to output directory for regridded timeseries
+    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
+    vars=CLD_CAL,FSDS                                       # comma separated variable list
+    start=1850                                              # the first year of data
+    end=2014                                                # the last year of data
+    flags="-7 --dfl_lvl=1"                                  # format and deflation flags
+    caseid=20180129.DECKv1b_piControl.ne30_oEC.edison       # the caseid for the data being processed
 
-    cd ${drc_in}
-    ls | ncclimo \
+    ncclimo \
       ${flags} \
       --var=${vars} \
+      -c ${caseid} \
       --yr_srt=${start} \
       --yr_end=${end} \
-      -O=${dir_out} \
+      --input=${input_dir} \
+      --output=${output_dir} \
+      --regrid=${regrid_dir}
       --map=${mapfile}
 
+Regridded Timeseries
+---------------------
 
+In this example, the CLD_CAL and FSDS variables will be regridded and extracted into single variable per file time-series. The command is identical to the 
+above climatology example, except that the additional year-per-file flag (--ypf) is added.
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    input_dir=cam.h0
+    output_dir=180x360
+    mapfile=map_ne30np4_to_cmip6_180x360_aave.20181001.nc   # path to mapfile
+    vars=CLD_CAL,FSDS                                       # comma separated variable list
+    start=1850                                              # the first year of data
+    end=2014                                                # the last year of data
+    flags="-7 --dfl_lvl=1 --ypf=50"                         # format and deflation flags, create a new output file for each 50 year chunk
+    caseid=20180129.DECKv1b_piControl.ne30_oEC.edison       # the caseid for the data being processed
+
+    ncclimo \
+      ${flags} \
+      --var=${vars} \
+      -c ${caseid} \
+      --yr_srt=${start} \
+      --yr_end=${end} \
+      --input=${input_dir} \
+      --output=${output_dir} \
+      --map=${mapfile}
 

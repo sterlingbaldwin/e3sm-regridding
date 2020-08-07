@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -162,12 +162,13 @@
 <div class="section" id="low-complexity">
 <h3>Low Complexity<a class="headerlink" href="#low-complexity" title="Permalink to this headline">¶</a></h3>
 <p>In this example, a directory of mpaso.hist.am.timeSeriesStatsMonthly files will be regridded.
-For mpassi files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding.</p>
+For mpassi files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding,
+or use the –prc_typ=mpasseaice to change the procedure type to mpas-sea-ice.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
-<span class="nv">drc_in</span><span class="o">=</span>./mpaso/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-P mpas --d2f&quot;</span>  <span class="c1"># This invokes the mpas regridder, and converts output from double precision to single</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
+<span class="nv">drc_in</span><span class="o">=</span>mpaso                                                <span class="c1"># path to input directory</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                             <span class="c1"># path to output directory</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;--prc_typ=mpas --d2f&quot;</span>                                <span class="c1"># This invokes the mpas regridder, and converts output from double precision to single</span>
 
 ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="o">{</span>flags<span class="o">}</span>
 </pre></div>
@@ -177,23 +178,24 @@ ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class=
 <h3>High Complexity<a class="headerlink" href="#high-complexity" title="Permalink to this headline">¶</a></h3>
 <p>In this example, two variables will be extracted into single-variable-per-file time-series files.
 These will be compressed and deflated, and the data will be converted from double to single precision.
-For mpas sea-ice files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding.</p>
+For mpas sea-ice files, add the flag “–sgs_frc=timeMonthly_avg_iceAreaCell” to turn on sub-grid-cell regridding,
+or use the –prc_typ=mpasseaice to change the procedure type to mpas-sea-ice</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
-<span class="nv">drc_in</span><span class="o">=</span>./mpaso/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature&quot;</span>
-<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                  <span class="c1"># first year of model data</span>
-<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                    <span class="c1"># last year of model data</span>
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1 -m mpas --d2f&quot;</span>        <span class="c1"># compression level 7, deflate level 1, using ncclimo mode=mpas, converting from double to float</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc                       <span class="c1"># map from the MPAS 60km-to-30km mesh to the 1x1 degree grid</span>
+<span class="nv">drc_in</span><span class="o">=</span>mpaso                                                                    <span class="c1"># path to input directory</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                                                 <span class="c1"># path to output directory</span>
+<span class="nv">vars</span><span class="o">=</span>timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature   <span class="c1"># variables to extract in a comma sepperated list</span>
+<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                                                      <span class="c1"># first year of model data</span>
+<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                                                        <span class="c1"># last year of model data</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1 -m mpas --d2f&quot;</span>                                            <span class="c1"># format and deflation flags</span>
 
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span>
-ls <span class="p">|</span> ncclimo <span class="se">\</span>
+ncclimo <span class="se">\</span>
   <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
   --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
   --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
   --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
-  -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
   --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
 </pre></div>
 </div>

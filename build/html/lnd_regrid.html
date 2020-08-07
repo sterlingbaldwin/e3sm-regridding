@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -166,12 +166,12 @@
 <p>In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub-grid-scale
 regridding, which uses the land fraction around coastal areas to better represent the values around complex coastal geometry.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./clm2.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt; <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
+<span class="nv">drc_in</span><span class="o">=</span>clm2.h0                                          <span class="c1"># path to input directory</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                         <span class="c1"># path to output directory</span>
+<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;                             <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
 
-ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
+ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frc<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
 </div>
 </div>
@@ -180,13 +180,13 @@ ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class=
 <p>In this example, the same regridding operation as above is performed, but only on the DEADSTEMC and CDWC variables.
 Running with specific variables significantly speeds up the run and reduces output files size, as the rest of the variables are ignored.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./clm2.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>               <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
-<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;         <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
+<span class="nv">drc_in</span><span class="o">=</span>clm2.h0                                          <span class="c1"># path to input directory</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                         <span class="c1"># path to output directory</span>
+<span class="nv">vars</span><span class="o">=</span>DEADSTEMC,CDWC                                     <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
+<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;                             <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
 
-ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
+ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> --sgs_frc<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
 </div>
 </div>
@@ -195,24 +195,25 @@ ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si
 <p>In example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
 The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./clm2.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;DEADSTEMC,CDWC&quot;</span>               <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
-<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                          <span class="c1"># the first year of model data</span>
-<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                            <span class="c1"># the last year of model data</span>
-<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;         <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>       <span class="c1"># compression and deflation</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc  <span class="c1"># path to mapfile</span>
+<span class="nv">drc_in</span><span class="o">=</span>clm2.h0                                         <span class="c1"># path to input directory</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                        <span class="c1"># path to output directory</span>
+<span class="nv">vars</span><span class="o">=</span>DEADSTEMC,CDWC                                    <span class="c1"># the variables must be in a comma sepparated list with no spaces</span>
+<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                             <span class="c1"># the first year of model data</span>
+<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                               <span class="c1"># the last year of model data</span>
+<span class="nv">land_file</span><span class="o">=</span>&lt;input file path&gt;                            <span class="c1"># this is the path to a single land file to pull the landfrac variable from</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>                                 <span class="c1"># format and deflation</span>
 
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span>
-ls <span class="p">|</span> ncclimo <span class="se">\</span>
+ncclimo <span class="se">\</span>
   <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
   --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
   --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
   --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
-  -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
+  --ypf<span class="o">=</span><span class="m">50</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="se">\</span>
   --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> <span class="se">\</span>
-  --sgs_frac<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
+  --sgs_frc<span class="o">=</span><span class="si">${</span><span class="nv">land_file</span><span class="si">}</span>/landfrac
 </pre></div>
 </div>
 </div>

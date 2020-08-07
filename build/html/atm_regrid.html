@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -84,11 +84,12 @@
 <li class="toctree-l1"><a class="reference internal" href="guide.html">Regridding Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Atmospheric Regridding</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#regridding-eam-cam-atmospheric-data-files">Regridding EAM/CAM atmospheric data files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#low-example">Low example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-example">Simple example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#medium-complexity">Medium Complexity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#high-complexity">High Complexity</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#regridded-climatology">Regridded Climatology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#regridded-timeseries">Regridded Timeseries</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lnd_regrid.html">Land Regridding</a></li>
@@ -161,59 +162,89 @@
 <span id="atm-regrid"></span><h1>Atmospheric Regridding<a class="headerlink" href="#atmospheric-regridding" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="regridding-eam-cam-atmospheric-data-files">
 <h2>Regridding EAM/CAM atmospheric data files<a class="headerlink" href="#regridding-eam-cam-atmospheric-data-files" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="low-example">
-<h3>Low example<a class="headerlink" href="#low-example" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="simple-example">
+<h3>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h3>
 <p>This example will regrid all files in a directory of ne30 cam.h0 files. This assumes that the mapfile is already in place in the current
 directory and that a set of cam.h0 files are inplace under a directory named “cam.h0”. All the variables inside the file will be regridded.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./cam.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc    <span class="c1"># path to appropriate mapfile</span>
+<span class="nv">drc_in</span><span class="o">=</span>cam.h0                                            <span class="c1"># input directory path</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                          <span class="c1"># output directory path</span>
 
-ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
+ncremap -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="medium-complexity">
 <h3>Medium Complexity<a class="headerlink" href="#medium-complexity" title="Permalink to this headline">¶</a></h3>
-<p>In this example, the same regridding operation as above is performed, but only on the PRECT and FSDS variables.
+<p>In this example, the same regridding operation as above is performed, but only on the CLD_CAL and FSDS variables.
 Running with specific variables selected significantly speeds up the regridding process, as the rest of the variables are ignored.
 Output file size will also be reduced, as only the selected variables will be present.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">drc_in</span><span class="o">=</span>./cam.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;PRECT,FSDS&quot;</span>
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
+<span class="nv">drc_in</span><span class="o">=</span>cam.h0                                           <span class="c1"># input directory path</span>
+<span class="nv">drc_out</span><span class="o">=</span>180x360                                         <span class="c1"># output directory path</span>
+<span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># variables to regrid</span>
 
-ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">src_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
+ncremap -v <span class="si">${</span><span class="nv">vars</span><span class="si">}</span> -m <span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span> -I <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> -O <span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="high-complexity">
-<h3>High Complexity<a class="headerlink" href="#high-complexity" title="Permalink to this headline">¶</a></h3>
-<p>In this example, the PRECT and FSDS variables will be regridded and extracted into single-variable-per-file time-series files.
+</div>
+<div class="section" id="regridded-climatology">
+<h2>Regridded Climatology<a class="headerlink" href="#regridded-climatology" title="Permalink to this headline">¶</a></h2>
+<p>In this example, the CLD_CAL and FSDS variables will be regridded and averaged over the seasons to create both seasonal and annual climatologies.
 The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12. For high temporal frequency files
-(i.e. higher frequency then monthly), add the <cite>–clm_md=hgh_frq</cite> argument to the ncclimo command.</p>
+(i.e. higher frequency then monthly), add the <cite>–clm_md=hgh_frq</cite> argument to the ncclimo command. The ncclimo tool needs the caseid of the
+experiment data supplied to it with the “-c” flag.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nv">drc_in</span><span class="o">=</span>./cam.h0/
-<span class="nv">drc_out</span><span class="o">=</span>./180x360/
-<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc
-<span class="nv">vars</span><span class="o">=</span><span class="s2">&quot;PRECT,FSDS&quot;</span>              <span class="c1"># comma separated variable list</span>
-<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                     <span class="c1"># the first year of data</span>
-<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                       <span class="c1"># the last year of data</span>
-<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>  <span class="c1"># compression and deflation flags</span>
+<span class="nv">drc_in</span><span class="o">=</span>cam.h0
+<span class="nv">drc_out</span><span class="o">=</span>180x360
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
+<span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># comma separated variable list</span>
+<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                              <span class="c1"># the first year of data</span>
+<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                                <span class="c1"># the last year of data</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1&quot;</span>                                  <span class="c1"># format and deflation flags</span>
+<span class="nv">caseid</span><span class="o">=</span><span class="m">20180129</span>.DECKv1b_piControl.ne30_oEC.edison       <span class="c1"># the caseid for the data being processed</span>
 
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span>
-ls <span class="p">|</span> ncclimo <span class="se">\</span>
+ncclimo <span class="se">\</span>
   <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
   --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
+  -c <span class="si">${</span><span class="nv">caseid</span><span class="si">}</span> <span class="se">\</span>
   --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
   --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
-  -O<span class="o">=</span><span class="si">${</span><span class="nv">dir_out</span><span class="si">}</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="se">\</span>
   --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="regridded-timeseries">
+<h2>Regridded Timeseries<a class="headerlink" href="#regridded-timeseries" title="Permalink to this headline">¶</a></h2>
+<p>In this example, the CLD_CAL and FSDS variables will be regridded and extracted into single variable per file time-series. The command is identical to the
+above climatology example, except that the additional year-per-file flag (–ypf) is added.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">drc_in</span><span class="o">=</span>cam.h0
+<span class="nv">drc_out</span><span class="o">=</span>180x360
+<span class="nv">mapfile</span><span class="o">=</span>map_ne30np4_to_cmip6_180x360_aave.20181001.nc   <span class="c1"># path to mapfile</span>
+<span class="nv">vars</span><span class="o">=</span>CLD_CAL,FSDS                                       <span class="c1"># comma separated variable list</span>
+<span class="nv">start</span><span class="o">=</span><span class="m">1850</span>                                              <span class="c1"># the first year of data</span>
+<span class="nv">end</span><span class="o">=</span><span class="m">2014</span>                                                <span class="c1"># the last year of data</span>
+<span class="nv">flags</span><span class="o">=</span><span class="s2">&quot;-7 --dfl_lvl=1 --ypf=50&quot;</span>                         <span class="c1"># format and deflation flags, create a new output file for each 50 year chunk</span>
+<span class="nv">caseid</span><span class="o">=</span><span class="m">20180129</span>.DECKv1b_piControl.ne30_oEC.edison       <span class="c1"># the caseid for the data being processed</span>
+
+ncclimo <span class="se">\</span>
+  <span class="si">${</span><span class="nv">flags</span><span class="si">}</span> <span class="se">\</span>
+  --var<span class="o">=</span><span class="si">${</span><span class="nv">vars</span><span class="si">}</span> <span class="se">\</span>
+  -c <span class="si">${</span><span class="nv">caseid</span><span class="si">}</span> <span class="se">\</span>
+  --yr_srt<span class="o">=</span><span class="si">${</span><span class="nv">start</span><span class="si">}</span> <span class="se">\</span>
+  --yr_end<span class="o">=</span><span class="si">${</span><span class="nv">end</span><span class="si">}</span> <span class="se">\</span>
+  --input<span class="o">=</span><span class="si">${</span><span class="nv">drc_in</span><span class="si">}</span> <span class="se">\</span>
+  --output<span class="o">=</span><span class="si">${</span><span class="nv">drc_out</span><span class="si">}</span> <span class="se">\</span>
+  --map<span class="o">=</span><span class="si">${</span><span class="nv">mapfile</span><span class="si">}</span>
+</pre></div>
 </div>
 </div>
 </div>

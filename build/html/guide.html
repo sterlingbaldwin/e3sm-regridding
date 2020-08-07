@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -196,8 +196,7 @@ of mapping files for commonly used E3SM resolutions.</p>
 <li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v1/map_oRRS18to6v3_to_0.25x0.25degree_bilinear.nc">High resolution MPAS ocean (18km to 6km) to 1/4 degree lon lat</a></p></li>
 <li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/0_25deg_atm_18-6km_ocean/misc/native/mapping/fixed/ens1/v2/map_ne120np4_to_cmip6_720x1440_aave.20181001.nc">High resolution EAM/CAM atmospheric data (ne120) to 1/4 degree lon lat</a></p></li>
 <li><p><a class="reference external" href="https://aims3.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/1950-Control/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc">Standard resolution MPAS ocean (60km to 30km) to 1x1 degree lon lat</a></p></li>
-<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc">Standard resolution EAM/CAM atmospheric data (ne30) to 1x1 degree lon lat</a></p></li>
-<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_sgs_elm.20190301.nc">Standard resolution ELM/CLM atmospheric data to 1x1 degree lon lat</a></p></li>
+<li><p><a class="reference external" href="http://esgf-data2.llnl.gov/thredds/fileServer/user_pub_work/E3SM/1_0/piControl/1deg_atm_60-30km_ocean/misc/native/mapping/fixed/ens1/v1/map_ne30np4_to_cmip6_180x360_aave.20181001.nc">Standard resolution atmos/land (ne30) to 1x1 degree lon lat</a></p></li>
 </ul>
 <p><a class="reference external" href="https://web.lcrc.anl.gov/public/e3sm/mapping/maps/">A set of commonly used mapfiles can be found here.</a> The mapfiles follow the naming convention of “map_&lt;source-grid&gt;_to_&lt;destination-grid&gt;_&lt;regridding-algorithm&gt;”. This allows you to mix-and-match
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
@@ -225,7 +224,7 @@ data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 h
 </div>
 <div class="section" id="elm-clm">
 <h3>ELM/CLM<a class="headerlink" href="#elm-clm" title="Permalink to this headline">¶</a></h3>
-<p>Similarly, the E3SM Land Model decends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
+<p>Similarly, the E3SM Land Model descends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
 “elm” for the E3SM Land Model. All land model data are monthly averages.</p>
 </div>
 <div class="section" id="mpas">

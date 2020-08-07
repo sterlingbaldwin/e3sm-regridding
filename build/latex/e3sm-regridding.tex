@@ -58,6 +58,7 @@
 \fvset{fontsize=\small}
 \usepackage{geometry}
 
+
 % Include hyperref last.
 \usepackage{hyperref}
 % Fix anchor placement for figures with captions.
@@ -71,9 +72,9 @@
 
 
 \title{Regridding E3SM Data}
-\date{Jun 04, 2020}
-\release{1.0}
-\author{Sterling Baldwin \\ Jill Chengzhu Zhang \\ Renata McCoy \\ Tony Bartoletti \\ Charlie Zender}
+\date{Jul 20, 2020}
+\release{1.2}
+\author{Sterling Baldwin \and Jill Chengzhu Zhang \and Renata McCoy \and Tony Bartoletti \and Charlie Zender}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Release}
 \makeindex
@@ -91,7 +92,7 @@
 \chapter{Regridding Guide}
 \label{\detokenize{guide:regridding-guide}}\label{\detokenize{guide:guide}}\label{\detokenize{guide::doc}}
 This guide will cover regridding native E3SM model output from each of its components native grids, to
-any regular grid. These regridding examples are specific for the E3SMv1.x model, and may not work with later versions. For detailed up-to-date information on the
+any regular grid. These regridding examples are specific for the E3SMv1.x model, and may not work with later versions. For detailed up\sphinxhyphen{}to\sphinxhyphen{}date information on the
 E3SM model activities, refer to the \sphinxhref{https://e3sm.org/}{E3SM organizational website}.
 
 
@@ -115,9 +116,9 @@ To create a new conda environment named “regrid” with just nco use:
 \end{sphinxVerbatim}
 
 
-\subsection{Pre-build Executible}
+\subsection{Pre\sphinxhyphen{}build Executible}
 \label{\detokenize{guide:pre-build-executible}}
-\sphinxhref{http://nco.sourceforge.net/\#Executables}{Pre-build executibles are available on a variety of platforms.}
+\sphinxhref{http://nco.sourceforge.net/\#Executables}{Pre\sphinxhyphen{}build executibles are available on a variety of platforms.}
 
 
 \section{Map files}
@@ -129,25 +130,28 @@ of mapping files for commonly used E3SM resolutions.
 \sphinxhref{https://aims3.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/1950-Control/0\_25deg\_atm\_18-6km\_ocean/misc/native/mapping/fixed/ens1/v1/map\_oRRS18to6v3\_to\_0.25x0.25degree\_bilinear.nc}{High resolution MPAS ocean (18km to 6km) to 1/4 degree lon lat}
 
 \item {} 
-\sphinxhref{http://esgf-data2.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/1950-Control/0\_25deg\_atm\_18-6km\_ocean/misc/native/mapping/fixed/ens1/v2/map\_ne120np4\_to\_cmip6\_720x1440\_aave.20181001.nc}{High resolution EAM/CAM atmospheric data (ne120) to 1/4 degree lon lat}
+\sphinxhref{http://esgf-data2.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/1950-Control/0\_25deg\_atm\_18-6km\_ocean/misc/native/mapping/fixed/ens1/v2/map\_ne120np4\_to\_cmip6\_720x1440\_aave.20181001.nc}{High resolution atmos/land (ne120) to 1/4 degree lon lat}
 
 \item {} 
 \sphinxhref{https://aims3.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/1950-Control/1deg\_atm\_60-30km\_ocean/misc/native/mapping/fixed/ens1/v1/map\_oEC60to30v3\_to\_cmip6\_180x360\_aave.20181001.nc}{Standard resolution MPAS ocean (60km to 30km) to 1x1 degree lon lat}
 
 \item {} 
-\sphinxhref{http://esgf-data2.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/piControl/1deg\_atm\_60-30km\_ocean/misc/native/mapping/fixed/ens1/v1/map\_ne30np4\_to\_cmip6\_180x360\_aave.20181001.nc}{Standard resolution EAM/CAM atmospheric data (ne30) to 1x1 degree lon lat}
-
-\item {} 
-\sphinxhref{http://esgf-data2.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/piControl/1deg\_atm\_60-30km\_ocean/misc/native/mapping/fixed/ens1/v1/map\_ne30np4\_to\_cmip6\_180x360\_sgs\_elm.20190301.nc}{Standard resolution ELM/CLM atmospheric data to 1x1 degree lon lat}
+\sphinxhref{http://esgf-data2.llnl.gov/thredds/fileServer/user\_pub\_work/E3SM/1\_0/piControl/1deg\_atm\_60-30km\_ocean/misc/native/mapping/fixed/ens1/v1/map\_ne30np4\_to\_cmip6\_180x360\_aave.20181001.nc}{Standard resolution atmos/land (ne30) to 1x1 degree lon lat}
 
 \end{itemize}
 
-\sphinxhref{https://web.lcrc.anl.gov/public/e3sm/mapping/maps/}{A set of commonly used mapfiles can be found here.} The mapfiles follow the naming convention of “map\_\textless{}source-grid\textgreater{}\_to\_\textless{}destination-grid\textgreater{}\_\textless{}regridding-algorithm\textgreater{}”. This allows you to mix-and-match
+\sphinxhref{https://web.lcrc.anl.gov/public/e3sm/mapping/maps/}{A set of commonly used mapfiles can be found here.} The mapfiles follow the naming convention of “map\_\textless{}source\sphinxhyphen{}grid\textgreater{}\_to\_\textless{}destination\sphinxhyphen{}grid\textgreater{}\_\textless{}regridding\sphinxhyphen{}algorithm\textgreater{}”. This allows you to mix\sphinxhyphen{}and\sphinxhyphen{}match
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
-resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. The two most commond regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
-average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default
-regridding method. The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution. A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
-If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain. See \sphinxhref{http://cola.gmu.edu/grads/gadoc/gradfunclterp.html}{here} for additional information.
+resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat.
+
+The two most commond regridding algorithns are bi\sphinxhyphen{}linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi\sphinxhyphen{}linear each of the grid points in the dest grid contains the
+average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point.
+If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method.
+
+The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution.
+A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain.
+See \sphinxhref{http://cola.gmu.edu/grads/gadoc/gradfunclterp.html}{here} for additional information.
 
 
 \section{Data files}
@@ -157,11 +161,11 @@ If a grid box in the source grid partially overlaps the area of a destination gr
 \label{\detokenize{guide:eam-cam}}
 \sphinxhref{https://esgf-node.llnl.gov/search/e3sm/}{Raw E3SM model output can be obtained from ESGF here.} The ESGF search interface allows faceted search of the published E3SM model data.
 On the left side of the interface, each of the E3SM search facets is represented by a drop down menu. For example, the “Campaign” facet allows for the selection of data from a specific
-simulation campaign. Selecting the “DECK-v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the \sphinxhref{https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6}{DECK experimental campaign.}
+simulation campaign. Selecting the “DECK\sphinxhyphen{}v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the \sphinxhref{https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6}{DECK experimental campaign.}
 Similarly, the “experiment” facet can be used to display all datasets belonging to a single simulation. The facets can be added together in an AND relationship, for example selecting the \sphinxhref{https://esgf-node.llnl.gov/search/e3sm/?experiment=1pctCO2\&realm=atmos}{experiment=1pctCO2 AND realm=atmos}
 will display all datasets that have both belong to the 1pctCO2 experiment, and are atmospheric data files.
 
-The atmospheric files take the form of \textless{}experiment\_case\_name\textgreater{}.cam.h0.\textless{}year\textgreater{}-\textless{}month\textgreater{}.nc, for example 20180215.DECKv1b\_1pctCO2.ne30\_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified decendent of the
+The atmospheric files take the form of \textless{}experiment\_case\_name\textgreater{}.cam.h0.\textless{}year\textgreater{}\sphinxhyphen{}\textless{}month\textgreater{}.nc, for example 20180215.DECKv1b\_1pctCO2.ne30\_oEC.edison.cam.h0.0001\sphinxhyphen{}01.nc. The E3SM atmospheric model is a heavily modified decendent of the
 UCAR \sphinxhref{http://www.cesm.ucar.edu/models/atm-cam/}{Community Atmospheric Model}, and so include “cam” in their name. Note that future versions of the E3SM model will include a name change to the “E3SM Atmosphere Model” or eam. The EAM/CAM
 data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 hourly (cam.h3), and 3hr (cam.h4).
 
@@ -174,7 +178,7 @@ Similarly, the E3SM Land Model decends from the \sphinxhref{http://www.cgd.ucar.
 
 \subsection{MPAS}
 \label{\detokenize{guide:mpas}}
-The Ocean/Ice components of E3SM come from the \sphinxhref{https://mpas-dev.github.io/}{Model for Prediction Across Scales (MPAS)}, a modern state-of-the-art ocean model developed specifically for the E3SM project. All MPAS
+The Ocean/Ice components of E3SM come from the \sphinxhref{https://mpas-dev.github.io/}{Model for Prediction Across Scales (MPAS)}, a modern state\sphinxhyphen{}of\sphinxhyphen{}the\sphinxhyphen{}art ocean model developed specifically for the E3SM project. All MPAS
 data are monthly averages.
 
 
@@ -184,62 +188,94 @@ data are monthly averages.
 \section{Regridding EAM/CAM atmospheric data files}
 \label{\detokenize{atm_regrid:regridding-eam-cam-atmospheric-data-files}}
 
-\subsection{Low example}
-\label{\detokenize{atm_regrid:low-example}}
+\subsection{Simple example}
+\label{\detokenize{atm_regrid:simple-example}}
 This example will regrid all files in a directory of ne30 cam.h0 files. This assumes that the mapfile is already in place in the current
 directory and that a set of cam.h0 files are inplace under a directory named “cam.h0”. All the variables inside the file will be regridded.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./cam.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc    \PYG{c+c1}{\PYGZsh{} path to appropriate mapfile}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0                                            \PYG{c+c1}{\PYGZsh{} input directory path}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                          \PYG{c+c1}{\PYGZsh{} output directory path}
 
-ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{src\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
+ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
 \subsection{Medium Complexity}
 \label{\detokenize{atm_regrid:medium-complexity}}
-In this example, the same regridding operation as above is performed, but only on the PRECT and FSDS variables.
+In this example, the same regridding operation as above is performed, but only on the CLD\_CAL and FSDS variables.
 Running with specific variables selected significantly speeds up the regridding process, as the rest of the variables are ignored.
 Output file size will also be reduced, as only the selected variables will be present.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./cam.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{vars}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PRECT,FSDS\PYGZdq{}}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0                                           \PYG{c+c1}{\PYGZsh{} input directory path}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} output directory path}
+\PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} variables to regrid}
 
-ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{src\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
+ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
-\subsection{High Complexity}
-\label{\detokenize{atm_regrid:high-complexity}}
-In this example, the PRECT and FSDS variables will be regridded and extracted into single-variable-per-file time-series files.
-The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12. For high temporal frequency files
-(i.e. higher frequency then monthly), add the \sphinxtitleref{\textendash{}clm\_md=hgh\_frq} argument to the ncclimo command.
+\section{Regridded Climatology}
+\label{\detokenize{atm_regrid:regridded-climatology}}
+In this example, the CLD\_CAL and FSDS variables will be regridded and averaged over the seasons to create both seasonal and annual climatologies.
+The output will be compressed and deflated. The model data starts at 1850\sphinxhyphen{}01 and ends at 2014\sphinxhyphen{}12. For high temporal frequency files
+(i.e. higher frequency then monthly), add the \sphinxtitleref{\textendash{}clm\_md=hgh\_frq} argument to the ncclimo command. The ncclimo tool needs the caseid of the
+experiment data supplied to it with the “\sphinxhyphen{}c” flag.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./cam.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{vars}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PRECT,FSDS\PYGZdq{}}              \PYG{c+c1}{\PYGZsh{} comma separated variable list}
-\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                     \PYG{c+c1}{\PYGZsh{} the first year of data}
-\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                       \PYG{c+c1}{\PYGZsh{} the last year of data}
-\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1\PYGZdq{}}  \PYG{c+c1}{\PYGZsh{} compression and deflation flags}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} comma separated variable list}
+\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                              \PYG{c+c1}{\PYGZsh{} the first year of data}
+\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                                \PYG{c+c1}{\PYGZsh{} the last year of data}
+\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1\PYGZdq{}}                                  \PYG{c+c1}{\PYGZsh{} format and deflation flags}
+\PYG{n+nv}{caseid}\PYG{o}{=}\PYG{l+m}{20180129}.DECKv1b\PYGZus{}piControl.ne30\PYGZus{}oEC.edison       \PYG{c+c1}{\PYGZsh{} the caseid for the data being processed}
 
-\PYG{n+nb}{cd} \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}}
-ls \PYG{p}{\textbar{}} ncclimo \PYG{l+s+se}{\PYGZbs{}}
+ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{flags}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}var\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}c \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{caseid}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}O\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{dir\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\section{Regridded Timeseries}
+\label{\detokenize{atm_regrid:regridded-timeseries}}
+In this example, the CLD\_CAL and FSDS variables will be regridded and extracted into single variable per file time\sphinxhyphen{}series. The command is identical to the
+above climatology example, except that the additional year\sphinxhyphen{}per\sphinxhyphen{}file flag (\textendash{}ypf) is added.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/bin/bash}
+
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}cam.h0
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{vars}\PYG{o}{=}CLD\PYGZus{}CAL,FSDS                                       \PYG{c+c1}{\PYGZsh{} comma separated variable list}
+\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                              \PYG{c+c1}{\PYGZsh{} the first year of data}
+\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                                \PYG{c+c1}{\PYGZsh{} the last year of data}
+\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1 \PYGZhy{}\PYGZhy{}ypf=50\PYGZdq{}}                         \PYG{c+c1}{\PYGZsh{} format and deflation flags, create a new output file for each 50 year chunk}
+\PYG{n+nv}{caseid}\PYG{o}{=}\PYG{l+m}{20180129}.DECKv1b\PYGZus{}piControl.ne30\PYGZus{}oEC.edison       \PYG{c+c1}{\PYGZsh{} the caseid for the data being processed}
+
+ncclimo \PYG{l+s+se}{\PYGZbs{}}
+  \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{flags}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}var\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}c \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{caseid}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
@@ -252,17 +288,17 @@ ls \PYG{p}{\textbar{}} ncclimo \PYG{l+s+se}{\PYGZbs{}}
 
 \subsection{Low Complexity}
 \label{\detokenize{lnd_regrid:low-complexity}}
-In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub-grid-scale
+In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub\sphinxhyphen{}grid\sphinxhyphen{}scale
 regridding, which uses the land fraction around coastal areas to better represent the values around complex coastal geometry.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./clm2.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{} \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                             \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
 
-ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{src\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frac\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
+ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
 
 
@@ -273,61 +309,63 @@ Running with specific variables significantly speeds up the run and reduces outp
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./clm2.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{vars}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}DEADSTEMC,CDWC\PYGZdq{}}               \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
-\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}         \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                          \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                         \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                     \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
+\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                             \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
 
-ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{src\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frac\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
+ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
 
 
 \subsection{High Complexity}
 \label{\detokenize{lnd_regrid:high-complexity}}
-In example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
-The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12.
+In example, the regridding operation is performed and the selected variables are output in single\sphinxhyphen{}variable\sphinxhyphen{}per\sphinxhyphen{}file time\sphinxhyphen{}series files.
+The output will be compressed and deflated. The model data starts at 1850\sphinxhyphen{}01 and ends at 2014\sphinxhyphen{}12.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./clm2.h0/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{vars}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}DEADSTEMC,CDWC\PYGZdq{}}               \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
-\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                          \PYG{c+c1}{\PYGZsh{} the first year of model data}
-\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                            \PYG{c+c1}{\PYGZsh{} the last year of model data}
-\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}         \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
-\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1\PYGZdq{}}       \PYG{c+c1}{\PYGZsh{} compression and deflation}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}ne30np4\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc  \PYG{c+c1}{\PYGZsh{} path to mapfile}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}clm2.h0                                         \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                        \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{vars}\PYG{o}{=}DEADSTEMC,CDWC                                    \PYG{c+c1}{\PYGZsh{} the variables must be in a comma sepparated list with no spaces}
+\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                             \PYG{c+c1}{\PYGZsh{} the first year of model data}
+\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                               \PYG{c+c1}{\PYGZsh{} the last year of model data}
+\PYG{n+nv}{land\PYGZus{}file}\PYG{o}{=}\PYGZlt{}input file path\PYGZgt{}                            \PYG{c+c1}{\PYGZsh{} this is the path to a single land file to pull the landfrac variable from}
+\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1\PYGZdq{}}                                 \PYG{c+c1}{\PYGZsh{} format and deflation}
 
-\PYG{n+nb}{cd} \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}}
-ls \PYG{p}{\textbar{}} ncclimo \PYG{l+s+se}{\PYGZbs{}}
+ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{flags}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}var\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}O\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{dir\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}ypf\PYG{o}{=}\PYG{l+m}{50} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frac\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
+  \PYGZhy{}\PYGZhy{}sgs\PYGZus{}frc\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{land\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}/landfrac
 \end{sphinxVerbatim}
 
 
 \chapter{MPAS Regridding}
 \label{\detokenize{mpas_regrid:mpas-regridding}}\label{\detokenize{mpas_regrid:id1}}\label{\detokenize{mpas_regrid::doc}}
 
-\section{Regridding MPAS ocean/sea-ice data files}
+\section{Regridding MPAS ocean/sea\sphinxhyphen{}ice data files}
 \label{\detokenize{mpas_regrid:regridding-mpas-ocean-sea-ice-data-files}}
 
 \subsection{Low Complexity}
 \label{\detokenize{mpas_regrid:low-complexity}}
 In this example, a directory of mpaso.hist.am.timeSeriesStatsMonthly files will be regridded.
-For mpassi files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub-grid-cell regridding.
+For mpassi files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub\sphinxhyphen{}grid\sphinxhyphen{}cell regridding,
+or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas\sphinxhyphen{}sea\sphinxhyphen{}ice.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./mpaso/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}P mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}  \PYG{c+c1}{\PYGZsh{} This invokes the mpas regridder, and converts output from double precision to single}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc   \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}mpaso                                                \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                             \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}prc\PYGZus{}typ=mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}                                \PYG{c+c1}{\PYGZsh{} This invokes the mpas regridder, and converts output from double precision to single}
 
 ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}I \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYGZhy{}O \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{o}{\PYGZob{}}flags\PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
@@ -335,27 +373,28 @@ ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+s
 
 \subsection{High Complexity}
 \label{\detokenize{mpas_regrid:high-complexity}}
-In this example, two variables will be extracted into single-variable-per-file time-series files.
+In this example, two variables will be extracted into single\sphinxhyphen{}variable\sphinxhyphen{}per\sphinxhyphen{}file time\sphinxhyphen{}series files.
 These will be compressed and deflated, and the data will be converted from double to single precision.
-For mpas sea-ice files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub-grid-cell regridding.
+For mpas sea\sphinxhyphen{}ice files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub\sphinxhyphen{}grid\sphinxhyphen{}cell regridding,
+or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas\sphinxhyphen{}sea\sphinxhyphen{}ice
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
-\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
-\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}./mpaso/
-\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}./180x360/
-\PYG{n+nv}{vars}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceSalinity,timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceTemperature\PYGZdq{}}
-\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                  \PYG{c+c1}{\PYGZsh{} first year of model data}
-\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                    \PYG{c+c1}{\PYGZsh{} last year of model data}
-\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1 \PYGZhy{}m mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}        \PYG{c+c1}{\PYGZsh{} compression level 7, deflate level 1, using ncclimo mode=mpas, converting from double to float}
+\PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc                       \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
+\PYG{n+nv}{drc\PYGZus{}in}\PYG{o}{=}mpaso                                                                    \PYG{c+c1}{\PYGZsh{} path to input directory}
+\PYG{n+nv}{drc\PYGZus{}out}\PYG{o}{=}180x360                                                                 \PYG{c+c1}{\PYGZsh{} path to output directory}
+\PYG{n+nv}{vars}\PYG{o}{=}timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceSalinity,timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceTemperature   \PYG{c+c1}{\PYGZsh{} variables to extract in a comma sepperated list}
+\PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                                                      \PYG{c+c1}{\PYGZsh{} first year of model data}
+\PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                                                        \PYG{c+c1}{\PYGZsh{} last year of model data}
+\PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1 \PYGZhy{}m mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}                                            \PYG{c+c1}{\PYGZsh{} format and deflation flags}
 
-\PYG{n+nb}{cd} \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}}
-ls \PYG{p}{\textbar{}} ncclimo \PYG{l+s+se}{\PYGZbs{}}
+ncclimo \PYG{l+s+se}{\PYGZbs{}}
   \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{flags}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}var\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}srt\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{start}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}yr\PYGZus{}end\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{end}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
-  \PYGZhy{}O\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{dir\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}input\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{drc\PYGZus{}in}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
+  \PYGZhy{}\PYGZhy{}output\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{dir\PYGZus{}out}\PYG{l+s+si}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{}}
   \PYGZhy{}\PYGZhy{}map\PYG{o}{=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+si}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
