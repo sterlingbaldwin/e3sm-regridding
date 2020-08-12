@@ -49,6 +49,11 @@ High Complexity
 In example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
 The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12.
 
+This example produces time-series files, to produce monthly and annual climatologies remove the "--ypf N" (years-per-file) flag, and optionally
+add the "-a sdd" (seasonally discontiguous december) flag if you don't want to include the n-1th december from the climo.
+
+When choosing variables to extract into time-series, its only possible to use variables with both a time and space dimension.
+
 .. code-block:: bash
 
     #!/bin/bash

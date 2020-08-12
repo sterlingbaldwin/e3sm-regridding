@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Atmospheric Regridding" href="atm_regrid.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> e3sm-regridding
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> e3sm-regridding
           
 
           
@@ -73,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -104,6 +106,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -142,7 +145,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Regridding Guide</li>
     
@@ -170,9 +173,9 @@ any regular grid. These regridding examples are specific for the E3SMv1.x model,
 E3SM model activities, refer to the <a class="reference external" href="https://e3sm.org/">E3SM organizational website</a>.</p>
 <div class="section" id="environment-setup">
 <h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this headline">¶</a></h2>
-<p>You will need to first create an anaconda environment with the depedencies and install the netCDF Operators (NCO).
+<p>You will need to first create an anaconda environment with the dependencies and install the netCDF Operators (NCO).
 Follow <a class="reference external" href="http://nco.sourceforge.net/">this link</a> for the full set of NCO documentation.
-Although there are several ways to intall nco, the recommended method is to use the <a class="reference external" href="https://www.anaconda.com/products/individual#linux">conda</a> package manager.</p>
+Although there are several ways to install nco, the recommended method is to use the <a class="reference external" href="https://www.anaconda.com/products/individual#linux">conda</a> package manager.</p>
 <div class="section" id="id1">
 <h3>Conda<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">nco</span>
@@ -185,7 +188,7 @@ Although there are several ways to intall nco, the recommended method is to use 
 </div>
 <div class="section" id="pre-build-executible">
 <h3>Pre-build Executible<a class="headerlink" href="#pre-build-executible" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="http://nco.sourceforge.net/#Executables">Pre-build executibles are available on a variety of platforms.</a></p>
+<p><a class="reference external" href="http://nco.sourceforge.net/#Executables">Pre-build executables are available on a variety of platforms.</a></p>
 </div>
 </div>
 <div class="section" id="map-files">
@@ -201,12 +204,12 @@ of mapping files for commonly used E3SM resolutions.</p>
 <p><a class="reference external" href="https://web.lcrc.anl.gov/public/e3sm/mapping/maps/">A set of commonly used mapfiles can be found here.</a> The mapfiles follow the naming convention of “map_&lt;source-grid&gt;_to_&lt;destination-grid&gt;_&lt;regridding-algorithm&gt;”. This allows you to mix-and-match
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat.</p>
-<p>The two most common regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
+<p>The two most common regridding algorithms are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point.
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method.</p>
 <p>The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution.
 A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
-If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain.
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destination grid cell domain.
 See <a class="reference external" href="http://cola.gmu.edu/grads/gadoc/gradfunclterp.html">here</a> for additional information.</p>
 </div>
 <div class="section" id="data-files">
@@ -218,13 +221,13 @@ On the left side of the interface, each of the E3SM search facets is represented
 simulation campaign. Selecting the “DECK-v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the <a class="reference external" href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">DECK experimental campaign.</a>
 Similarly, the “experiment” facet can be used to display all datasets belonging to a single simulation. The facets can be added together in an AND relationship, for example selecting the <a class="reference external" href="https://esgf-node.llnl.gov/search/e3sm/?experiment=1pctCO2&amp;realm=atmos">experiment=1pctCO2 AND realm=atmos</a>
 will display all datasets that have both belong to the 1pctCO2 experiment, and are atmospheric data files.</p>
-<p>The atmospheric files take the form of &lt;experiment_case_name&gt;.cam.h0.&lt;year&gt;-&lt;month&gt;.nc, for example 20180215.DECKv1b_1pctCO2.ne30_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified decendent of the
+<p>The atmospheric files take the form of &lt;experiment_case_name&gt;.cam.h0.&lt;year&gt;-&lt;month&gt;.nc, for example 20180215.DECKv1b_1pctCO2.ne30_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified descendent of the
 UCAR <a class="reference external" href="http://www.cesm.ucar.edu/models/atm-cam/">Community Atmospheric Model</a>, and so include “cam” in their name. Note that future versions of the E3SM model will include a name change to the “E3SM Atmosphere Model” or eam. The EAM/CAM
 data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 hourly (cam.h3), and 3hr (cam.h4).</p>
 </div>
 <div class="section" id="elm-clm">
 <h3>ELM/CLM<a class="headerlink" href="#elm-clm" title="Permalink to this headline">¶</a></h3>
-<p>Similarly, the E3SM Land Model decends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
+<p>Similarly, the E3SM Land Model descends from the <a class="reference external" href="http://www.cgd.ucar.edu/tss/clm/distribution/index.html">Community Land Model</a>, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
 “elm” for the E3SM Land Model. All land model data are monthly averages.</p>
 </div>
 <div class="section" id="mpas">
@@ -255,11 +258,19 @@ data are monthly averages.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Lawrence Livermore National Security
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -270,7 +281,6 @@ data are monthly averages.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -80,7 +80,10 @@ Regridded Timeseries
 ---------------------
 
 In this example, the CLD_CAL and FSDS variables will be regridded and extracted into single variable per file time-series. The command is identical to the 
-above climatology example, except that the additional year-per-file flag (--ypf) is added.
+above climatology example, except that the additional year-per-file flag (--ypf) is added. 
+
+When choosing variables to extract into time-series, its only possible to use variables with both a time and space dimension. In the E3SM model
+the spacial dimension is denoted by the ncol axis (column number).
 
 .. code-block:: bash
 

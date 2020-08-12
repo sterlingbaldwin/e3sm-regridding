@@ -58,6 +58,7 @@
 \fvset{fontsize=\small}
 \usepackage{geometry}
 
+
 % Include hyperref last.
 \usepackage{hyperref}
 % Fix anchor placement for figures with captions.
@@ -65,13 +66,14 @@
 % Set up styles of URL: it should be placed after hyperref.
 \urlstyle{same}
 
+
 \usepackage{sphinxmessages}
 \setcounter{tocdepth}{0}
 
 
 
 \title{Regridding E3SM Data}
-\date{Aug 07, 2020}
+\date{Aug 12, 2020}
 \release{1.3}
 \author{Sterling Baldwin \and Jill Chengzhu Zhang \and Renata McCoy \and Tony Bartoletti \and Charlie Zender}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -91,15 +93,15 @@
 \chapter{Regridding Guide}
 \label{\detokenize{guide:regridding-guide}}\label{\detokenize{guide:guide}}\label{\detokenize{guide::doc}}
 This guide will cover regridding native E3SM model output from each of its components native grids, to
-any regular grid. These regridding examples are specific for the E3SMv1.x model, and may not work with later versions. For detailed up-to-date information on the
+any regular grid. These regridding examples are specific for the E3SMv1.x model, and may not work with later versions. For detailed up\sphinxhyphen{}to\sphinxhyphen{}date information on the
 E3SM model activities, refer to the \sphinxhref{https://e3sm.org/}{E3SM organizational website}.
 
 
 \section{Environment Setup}
 \label{\detokenize{guide:environment-setup}}
-You will need to first create an anaconda environment with the depedencies and install the netCDF Operators (NCO).
+You will need to first create an anaconda environment with the dependencies and install the netCDF Operators (NCO).
 Follow \sphinxhref{http://nco.sourceforge.net/}{this link} for the full set of NCO documentation.
-Although there are several ways to intall nco, the recommended method is to use the \sphinxhref{https://www.anaconda.com/products/individual\#linux}{conda} package manager.
+Although there are several ways to install nco, the recommended method is to use the \sphinxhref{https://www.anaconda.com/products/individual\#linux}{conda} package manager.
 
 
 \subsection{Conda}
@@ -115,9 +117,9 @@ To create a new conda environment named “regrid” with just nco use:
 \end{sphinxVerbatim}
 
 
-\subsection{Pre-build Executible}
+\subsection{Pre\sphinxhyphen{}build Executible}
 \label{\detokenize{guide:pre-build-executible}}
-\sphinxhref{http://nco.sourceforge.net/\#Executables}{Pre-build executibles are available on a variety of platforms.}
+\sphinxhref{http://nco.sourceforge.net/\#Executables}{Pre\sphinxhyphen{}build executables are available on a variety of platforms.}
 
 
 \section{Map files}
@@ -139,17 +141,17 @@ of mapping files for commonly used E3SM resolutions.
 
 \end{itemize}
 
-\sphinxhref{https://web.lcrc.anl.gov/public/e3sm/mapping/maps/}{A set of commonly used mapfiles can be found here.} The mapfiles follow the naming convention of “map\_\textless{}source-grid\textgreater{}\_to\_\textless{}destination-grid\textgreater{}\_\textless{}regridding-algorithm\textgreater{}”. This allows you to mix-and-match
+\sphinxhref{https://web.lcrc.anl.gov/public/e3sm/mapping/maps/}{A set of commonly used mapfiles can be found here.} The mapfiles follow the naming convention of “map\_\textless{}source\sphinxhyphen{}grid\textgreater{}\_to\_\textless{}destination\sphinxhyphen{}grid\textgreater{}\_\textless{}regridding\sphinxhyphen{}algorithm\textgreater{}”. This allows you to mix\sphinxhyphen{}and\sphinxhyphen{}match
 whichever raw grid was used to whichever destination grid is desired. The “ne30” raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the “standard” resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat.
 
-The two most common regridding algorithns are bi-linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi-linear each of the grid points in the dest grid contains the
+The two most common regridding algorithms are bi\sphinxhyphen{}linear (“bilin”/”blin”) and Area Averaged (“aave”). For bi\sphinxhyphen{}linear each of the grid points in the dest grid contains the
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point.
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method.
 
 The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution.
 A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid.
-If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain.
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destination grid cell domain.
 See \sphinxhref{http://cola.gmu.edu/grads/gadoc/gradfunclterp.html}{here} for additional information.
 
 
@@ -160,24 +162,24 @@ See \sphinxhref{http://cola.gmu.edu/grads/gadoc/gradfunclterp.html}{here} for ad
 \label{\detokenize{guide:eam-cam}}
 \sphinxhref{https://esgf-node.llnl.gov/search/e3sm/}{Raw E3SM model output can be obtained from ESGF here.} The ESGF search interface allows faceted search of the published E3SM model data.
 On the left side of the interface, each of the E3SM search facets is represented by a drop down menu. For example, the “Campaign” facet allows for the selection of data from a specific
-simulation campaign. Selecting the “DECK-v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the \sphinxhref{https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6}{DECK experimental campaign.}
+simulation campaign. Selecting the “DECK\sphinxhyphen{}v1” option and pressing “search” will narrow down the datasets displayed to only those experiments that participated in the \sphinxhref{https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6}{DECK experimental campaign.}
 Similarly, the “experiment” facet can be used to display all datasets belonging to a single simulation. The facets can be added together in an AND relationship, for example selecting the \sphinxhref{https://esgf-node.llnl.gov/search/e3sm/?experiment=1pctCO2\&realm=atmos}{experiment=1pctCO2 AND realm=atmos}
 will display all datasets that have both belong to the 1pctCO2 experiment, and are atmospheric data files.
 
-The atmospheric files take the form of \textless{}experiment\_case\_name\textgreater{}.cam.h0.\textless{}year\textgreater{}-\textless{}month\textgreater{}.nc, for example 20180215.DECKv1b\_1pctCO2.ne30\_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified decendent of the
+The atmospheric files take the form of \textless{}experiment\_case\_name\textgreater{}.cam.h0.\textless{}year\textgreater{}\sphinxhyphen{}\textless{}month\textgreater{}.nc, for example 20180215.DECKv1b\_1pctCO2.ne30\_oEC.edison.cam.h0.0001\sphinxhyphen{}01.nc. The E3SM atmospheric model is a heavily modified descendent of the
 UCAR \sphinxhref{http://www.cesm.ucar.edu/models/atm-cam/}{Community Atmospheric Model}, and so include “cam” in their name. Note that future versions of the E3SM model will include a name change to the “E3SM Atmosphere Model” or eam. The EAM/CAM
 data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 hourly (cam.h3), and 3hr (cam.h4).
 
 
 \subsection{ELM/CLM}
 \label{\detokenize{guide:elm-clm}}
-Similarly, the E3SM Land Model decends from the \sphinxhref{http://www.cgd.ucar.edu/tss/clm/distribution/index.html}{Community Land Model}, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
+Similarly, the E3SM Land Model descends from the \sphinxhref{http://www.cgd.ucar.edu/tss/clm/distribution/index.html}{Community Land Model}, and so contain the substring “clm2”. Future versions of the E3SM output will replace this with
 “elm” for the E3SM Land Model. All land model data are monthly averages.
 
 
 \subsection{MPAS}
 \label{\detokenize{guide:mpas}}
-The Ocean/Ice components of E3SM come from the \sphinxhref{https://mpas-dev.github.io/}{Model for Prediction Across Scales (MPAS)}, a modern state-of-the-art ocean model developed specifically for the E3SM project. All MPAS
+The Ocean/Ice components of E3SM come from the \sphinxhref{https://mpas-dev.github.io/}{Model for Prediction Across Scales (MPAS)}, a modern state\sphinxhyphen{}of\sphinxhyphen{}the\sphinxhyphen{}art ocean model developed specifically for the E3SM project. All MPAS
 data are monthly averages.
 
 
@@ -222,9 +224,9 @@ ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{
 \section{Regridded Climatology}
 \label{\detokenize{atm_regrid:regridded-climatology}}
 In this example, the CLD\_CAL and FSDS variables will be regridded and averaged over the seasons to create both seasonal and annual climatologies.
-The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12. For high temporal frequency files
+The output will be compressed and deflated. The model data starts at 1850\sphinxhyphen{}01 and ends at 2014\sphinxhyphen{}12. For high temporal frequency files
 (i.e. higher frequency then monthly), add the \sphinxtitleref{\textendash{}clm\_md=hgh\_frq} argument to the ncclimo command. The ncclimo tool needs the caseid of the
-experiment data supplied to it with the “-c” flag.
+experiment data supplied to it with the “\sphinxhyphen{}c” flag.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
@@ -254,8 +256,11 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
 
 \section{Regridded Timeseries}
 \label{\detokenize{atm_regrid:regridded-timeseries}}
-In this example, the CLD\_CAL and FSDS variables will be regridded and extracted into single variable per file time-series. The command is identical to the
-above climatology example, except that the additional year-per-file flag (\textendash{}ypf) is added.
+In this example, the CLD\_CAL and FSDS variables will be regridded and extracted into single variable per file time\sphinxhyphen{}series. The command is identical to the
+above climatology example, except that the additional year\sphinxhyphen{}per\sphinxhyphen{}file flag (\textendash{}ypf) is added.
+
+When choosing variables to extract into time\sphinxhyphen{}series, its only possible to use variables with both a time and space dimension. In the E3SM model
+the spacial dimension is denoted by the ncol axis (column number).
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
@@ -289,7 +294,7 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
 
 \subsection{Low Complexity}
 \label{\detokenize{lnd_regrid:low-complexity}}
-In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub-grid-scale
+In this example, a directory of ne30 clm2.h0 files will be regridded. This will regrid all variables in the input files, using sub\sphinxhyphen{}grid\sphinxhyphen{}scale
 regridding, which uses the land fraction around coastal areas to better represent the values around complex coastal geometry.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -322,8 +327,13 @@ ncremap \PYGZhy{}v \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{vars}\PYG{l+s+si}{
 
 \subsection{High Complexity}
 \label{\detokenize{lnd_regrid:high-complexity}}
-In example, the regridding operation is performed and the selected variables are output in single-variable-per-file time-series files.
-The output will be compressed and deflated. The model data starts at 1850-01 and ends at 2014-12.
+In example, the regridding operation is performed and the selected variables are output in single\sphinxhyphen{}variable\sphinxhyphen{}per\sphinxhyphen{}file time\sphinxhyphen{}series files.
+The output will be compressed and deflated. The model data starts at 1850\sphinxhyphen{}01 and ends at 2014\sphinxhyphen{}12.
+
+This example produces time\sphinxhyphen{}series files, to produce monthly and annual climatologies remove the “\textendash{}ypf N” (years\sphinxhyphen{}per\sphinxhyphen{}file) flag, and optionally
+add the “\sphinxhyphen{}a sdd” (seasonally discontiguous december) flag if you don’t want to include the n\sphinxhyphen{}1th december from the climo.
+
+When choosing variables to extract into time\sphinxhyphen{}series, its only possible to use variables with both a time and space dimension.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
@@ -352,14 +362,14 @@ ncclimo \PYG{l+s+se}{\PYGZbs{}}
 \chapter{MPAS Regridding}
 \label{\detokenize{mpas_regrid:mpas-regridding}}\label{\detokenize{mpas_regrid:id1}}\label{\detokenize{mpas_regrid::doc}}
 
-\section{Regridding MPAS ocean/sea-ice data files}
+\section{Regridding MPAS ocean/sea\sphinxhyphen{}ice data files}
 \label{\detokenize{mpas_regrid:regridding-mpas-ocean-sea-ice-data-files}}
 
 \subsection{Low Complexity}
 \label{\detokenize{mpas_regrid:low-complexity}}
 In this example, a directory of mpaso.hist.am.timeSeriesStatsMonthly files will be regridded.
-For mpassi files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub-grid-cell regridding,
-or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas-sea-ice.
+For mpassi files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub\sphinxhyphen{}grid\sphinxhyphen{}cell regridding,
+or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas\sphinxhyphen{}sea\sphinxhyphen{}ice.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
@@ -374,17 +384,17 @@ ncremap \PYGZhy{}m \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{mapfile}\PYG{l+s+s
 
 \subsection{High Complexity}
 \label{\detokenize{mpas_regrid:high-complexity}}
-In this example, two variables will be extracted into single-variable-per-file time-series files.
+In this example, two variables will be extracted into single\sphinxhyphen{}variable\sphinxhyphen{}per\sphinxhyphen{}file time\sphinxhyphen{}series files.
 These will be compressed and deflated, and the data will be converted from double to single precision.
-For mpas sea-ice files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub-grid-cell regridding,
-or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas-sea-ice
+For mpas sea\sphinxhyphen{}ice files, add the flag “\textendash{}sgs\_frc=timeMonthly\_avg\_iceAreaCell” to turn on sub\sphinxhyphen{}grid\sphinxhyphen{}cell regridding,
+or use the \textendash{}prc\_typ=mpasseaice to change the procedure type to mpas\sphinxhyphen{}sea\sphinxhyphen{}ice
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{mapfile}\PYG{o}{=}map\PYGZus{}oEC60to30v3\PYGZus{}to\PYGZus{}cmip6\PYGZus{}180x360\PYGZus{}aave.20181001.nc                       \PYG{c+c1}{\PYGZsh{} map from the MPAS 60km\PYGZhy{}to\PYGZhy{}30km mesh to the 1x1 degree grid}
 \PYG{n+nv}{input\PYGZus{}dir}\PYG{o}{=}mpaso                                                                 \PYG{c+c1}{\PYGZsh{} path to input directory}
 \PYG{n+nv}{output\PYGZus{}dir}\PYG{o}{=}180x360                                                              \PYG{c+c1}{\PYGZsh{} path to output directory}
-\PYG{n+nv}{vars}\PYG{o}{=}timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceSalinity,timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceTemperature   \PYG{c+c1}{\PYGZsh{} variables to extract in a comma sepperated list}
+\PYG{n+nv}{vars}\PYG{o}{=}timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceSalinity,timeMonthly\PYGZus{}avg\PYGZus{}seaSurfaceTemperature   \PYG{c+c1}{\PYGZsh{} variables to extract in a comma separated list}
 \PYG{n+nv}{start}\PYG{o}{=}\PYG{l+m}{1850}                                                                      \PYG{c+c1}{\PYGZsh{} first year of model data}
 \PYG{n+nv}{end}\PYG{o}{=}\PYG{l+m}{2014}                                                                        \PYG{c+c1}{\PYGZsh{} last year of model data}
 \PYG{n+nv}{flags}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}7 \PYGZhy{}\PYGZhy{}dfl\PYGZus{}lvl=1 \PYGZhy{}m mpas \PYGZhy{}\PYGZhy{}d2f\PYGZdq{}}                                            \PYG{c+c1}{\PYGZsh{} format and deflation flags}

@@ -1,4 +1,5 @@
 {
     "restructuredtext.confPath": "${workspaceFolder}/source",
-    "python.pythonPath": "/Users/baldwin32/opt/anaconda3/envs/pub/bin/python"
+    "python.pythonPath": "/Users/baldwin32/opt/anaconda3/envs/pub/bin/python",
+    "cSpell.enabled": true
 }

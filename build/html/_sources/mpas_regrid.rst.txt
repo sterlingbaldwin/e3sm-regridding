@@ -41,7 +41,7 @@ or use the --prc_typ=mpasseaice to change the procedure type to mpas-sea-ice
     mapfile=map_oEC60to30v3_to_cmip6_180x360_aave.20181001.nc                       # map from the MPAS 60km-to-30km mesh to the 1x1 degree grid
     input_dir=mpaso                                                                 # path to input directory
     output_dir=180x360                                                              # path to output directory
-    vars=timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature   # variables to extract in a comma sepperated list
+    vars=timeMonthly_avg_seaSurfaceSalinity,timeMonthly_avg_seaSurfaceTemperature   # variables to extract in a comma separated list
     start=1850                                                                      # first year of model data
     end=2014                                                                        # last year of model data
     flags="-7 --dfl_lvl=1 -m mpas --d2f"                                            # format and deflation flags

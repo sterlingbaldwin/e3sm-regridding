@@ -13,9 +13,9 @@ E3SM model activities, refer to the `E3SM organizational website <https://e3sm.o
 Environment Setup
 -----------------
 
-You will need to first create an anaconda environment with the depedencies and install the netCDF Operators (NCO). 
+You will need to first create an anaconda environment with the dependencies and install the netCDF Operators (NCO). 
 Follow `this link <http://nco.sourceforge.net/>`_ for the full set of NCO documentation. 
-Although there are several ways to intall nco, the recommended method is to use the `conda <https://www.anaconda.com/products/individual#linux>`_ package manager.
+Although there are several ways to install nco, the recommended method is to use the `conda <https://www.anaconda.com/products/individual#linux>`_ package manager.
 
 Conda
 ^^^^^
@@ -34,7 +34,7 @@ To create a new conda environment named "regrid" with just nco use:
 Pre-build Executible
 ^^^^^^^^^^^^^^^^^^^^
 
-`Pre-build executibles are available on a variety of platforms. <http://nco.sourceforge.net/#Executables>`_
+`Pre-build executables are available on a variety of platforms. <http://nco.sourceforge.net/#Executables>`_
 
 
 Map files
@@ -52,13 +52,13 @@ of mapping files for commonly used E3SM resolutions.
 whichever raw grid was used to whichever destination grid is desired. The "ne30" raw grid corresponds to roughly 1 by 1 degree longitude/latitude, and is the "standard" resolution for the E3SM model. Higher
 resolutions are ne120 which corresponds to roughtly 0.25 degree by 0.25 degree lon/lat. 
 
-The two most common regridding algorithns are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
+The two most common regridding algorithms are bi-linear ("bilin"/"blin") and Area Averaged ("aave"). For bi-linear each of the grid points in the dest grid contains the 
 average of the nearest four grid points in the source grid, weighted by their distance from the destination grid point. 
 If any of the four surrounding input grid points contain missing data, the interpolated value will be flagged as missing. Bilin is a good default regridding method. 
 
 The aave method is the area average with latitude weighting, and gives better results when going from a high resolution grid to a lower resolution. 
 A spatial average of the source data is calculated in the area outlined by each grid box in the destination grid. 
-If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destintion grid cell domain. 
+If a grid box in the source grid partially overlaps the area of a destination grid cell, its contribution to the spatial average is weighted by the fraction of area within the destination grid cell domain. 
 See `here <http://cola.gmu.edu/grads/gadoc/gradfunclterp.html>`_ for additional information.
 
 
@@ -74,14 +74,14 @@ simulation campaign. Selecting the "DECK-v1" option and pressing "search" will n
 Similarly, the "experiment" facet can be used to display all datasets belonging to a single simulation. The facets can be added together in an AND relationship, for example selecting the `experiment=1pctCO2 AND realm=atmos <https://esgf-node.llnl.gov/search/e3sm/?experiment=1pctCO2&realm=atmos>`_
 will display all datasets that have both belong to the 1pctCO2 experiment, and are atmospheric data files.
 
-The atmospheric files take the form of <experiment_case_name>.cam.h0.<year>-<month>.nc, for example 20180215.DECKv1b_1pctCO2.ne30_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified decendent of the 
+The atmospheric files take the form of <experiment_case_name>.cam.h0.<year>-<month>.nc, for example 20180215.DECKv1b_1pctCO2.ne30_oEC.edison.cam.h0.0001-01.nc. The E3SM atmospheric model is a heavily modified descendent of the 
 UCAR `Community Atmospheric Model <http://www.cesm.ucar.edu/models/atm-cam/>`_, and so include "cam" in their name. Note that future versions of the E3SM model will include a name change to the "E3SM Atmosphere Model" or eam. The EAM/CAM
 data files come in 4 temporal frequencies, monthly (cam.h0), daily (cam.h1), 6 hourly (cam.h3), and 3hr (cam.h4). 
 
 ELM/CLM
 ^^^^^^^
 
-Similarly, the E3SM Land Model decends from the `Community Land Model <http://www.cgd.ucar.edu/tss/clm/distribution/index.html>`_, and so contain the substring "clm2". Future versions of the E3SM output will replace this with
+Similarly, the E3SM Land Model descends from the `Community Land Model <http://www.cgd.ucar.edu/tss/clm/distribution/index.html>`_, and so contain the substring "clm2". Future versions of the E3SM output will replace this with
 "elm" for the E3SM Land Model. All land model data are monthly averages.
 
 MPAS
